@@ -27,4 +27,3 @@ ggplot(data = exam_data,
        aes(x = RACE)) +
   geom_bar()
 ```
-
