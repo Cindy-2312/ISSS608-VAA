@@ -4,6 +4,7 @@
 
 [build.environment]
   QUARTO_VERSION = "1.7.27"
+  NODE_VERSION= "18"
 
 [[plugins]]
   package = "netlify-plugin-quarto"
