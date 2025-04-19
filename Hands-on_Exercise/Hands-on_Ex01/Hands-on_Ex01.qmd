@@ -1,0 +1,29 @@
+---
+title: "Hands-on Exercise 1"
+---
+
+# Getting Started
+
+## Install and launching R packages
+
+```{r}
+pacman::p_load(tidyverse)
+```
+
+## Importing the data
+
+```{r}
+library(readr)
+exam_data <- read_csv("data/Exam_data.csv")
+```
+
+# Plotting a simple bar chart
+
+```{r}
+##| eval: false    #this is for showing code but not the chart
+##| echo: false    #this is for showing chart but not the code
+library(ggplot2)
+ggplot(data = exam_data,
+       aes(x = RACE)) +
+  geom_bar()
+```
