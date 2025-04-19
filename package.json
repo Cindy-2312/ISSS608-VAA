@@ -1,0 +1,23 @@
+{
+  "name": "isss608-vaa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cindy-2312/ISSS608-VAA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cindy-2312/ISSS608-VAA/issues"
+  },
+  "homepage": "https://github.com/Cindy-2312/ISSS608-VAA#readme",
+  "description": "",
+  "devDependencies": {
+    "netlify-plugin-quarto": "^0.0.4"
+  }
+}
