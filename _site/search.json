@@ -18,7 +18,11 @@
     "href": "Hands-on_Exercise/Hands-on_Ex01/Hands-on_Ex01.html",
     "title": "Hands-on Exercise 1",
     "section": "",
+<<<<<<< HEAD
     "text": "pacman::p_load(tidyverse)\n\n\n\n\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+=======
+    "text": "pacman::p_load(tidyverse)\n\n\n\n\n\nlibrary(readr)\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+>>>>>>> main
   },
   {
     "objectID": "Hands-on_Exercise/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
@@ -32,6 +36,10 @@
     "href": "Hands-on_Exercise/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
     "title": "Hands-on Exercise 1",
     "section": "",
+<<<<<<< HEAD
     "text": "exam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+=======
+    "text": "library(readr)\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+>>>>>>> main
   }
 ]
