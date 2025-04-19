@@ -1,0 +1,26 @@
+---
+title: "Hands-on Exercise 1"
+author: "Dr. Kam Tin Seong"
+---
+
+# Getting Started
+
+## Install and launching R packages
+
+```{r}
+pacman::p_load(tidyverse)
+```
+
+## Importing the data
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+```
+
+# Plotting a simple bar chart
+
+```{r}
+ggplot(data = exam_data, 
+       aes (x=RACE)) +
+  geom_bar()
+```
