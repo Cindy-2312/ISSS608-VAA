@@ -81,7 +81,33 @@ ggplot(data=exam_data,
   theme_economist()
 ```
 
-Working with hrbthemes package Why use this package? It has 2 goals. First, it provides a base theme that focuses on typographic elements. Second, it centers around productivity for a production workflow
+## Working with hrbthems package
+
+Working with hrbthemes package. Why use this package? It has 2 goals. First, it provides a base theme that focuses on typographic elements. Second, it centers around productivity for a production workflow
+
+```{r}
+ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  ggtitle("Distribution of Maths scores") +
+  theme_ipsum()
+```
+
+```{r}
+ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  ggtitle("Distribution of Maths scores") +
+  theme_ipsum(axis_title_size = 10,
+              base_size = 10,
+              grid = "Y")
+```
 
 # Beyond single graphs
 
@@ -96,6 +122,7 @@ p1 <- ggplot(data=exam_data,
                  fill="grey90") + 
   coord_cartesian(xlim=c(0,100)) +
   ggtitle("Distribution of Maths scores")
+print(p1)
 ```
 
 Graphing of English scores
@@ -109,6 +136,7 @@ p2 <- ggplot(data=exam_data,
                  fill="grey90") +
   coord_cartesian(xlim=c(0,100)) +
   ggtitle("Distribution of English scores")
+print(p2)
 ```
 
 Graphing scatterplot for English score versus Maths score
@@ -123,6 +151,7 @@ p3 <- ggplot(data=exam_data,
   coord_cartesian(xlim=c(0,100),
                   ylim=c(0,100)) +
   ggtitle("English scores versus Maths scores for Primary 3")
+print(p3)
 ```
 
 ## Using patchwork extension to create composite figures by combining graphs
@@ -139,31 +168,73 @@ library(patchwork)
 p1+p2
 ```
 
+#### Additional attempt 1 : use different code to combine the 2 graphs
+
+```{r}
+wrap_plots(p1,p2)
+```
+
 ### Combining 3 ggplot2 graphs
 
 ```{r}
-
 (p1 / p2) | p3
+```
+
+#### Additional attempt 2: Trying different style of stacking
+
+```{r}
+(p1 | p2) / p3
 ```
 
 ### Creating a composite figure with tag
 
 ```{r}
-
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'I')
+```
+
+#### Additional attempt 3: Trying to make it more beautiful
+
+```{r}
+(p1 | p2) / p3 +
+  plot_annotation(tag_levels = 'I') & 
+  theme(plot.tag = element_text(size = 10))
 ```
 
 ### Creating figure with insert
 
 ```{r}
-
-
 p3 + inset_element(p2, 
-                   left = 0.02, 
+                   left = 0.01, 
                    bottom = 0.7, 
                    right = 0.5, 
                    top = 1)
+```
+
+#### Additional attempt 4:
+
+```{r}
+p2_density <- ggplot(exam_data, aes(x = ENGLISH)) +
+  geom_density(fill = "#EEDFCC", alpha = 0.5) +
+  ggtitle("English score density") + 
+  theme_minimal(base_size = 8) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank(),
+    #plot.title = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.3)
+  )
+print (p2_density)
+
+
+p3 + inset_element(
+  p2_density,
+  left = 0.01, bottom = 0.7,
+  right = 0.5, top = 1
+)
+
 ```
 
 ### Creating a composite figure by using patchwork and ggtheme combined
@@ -172,3 +243,11 @@ p3 + inset_element(p2,
 patchwork <- (p1 / p2) | p3
 patchwork & theme_economist()
 ```
+
+#### Additional attempt 5:
+
+```{r}
+patchwork <- (p1 | p2) / p3
+patchwork & theme_bw()
+```
+
