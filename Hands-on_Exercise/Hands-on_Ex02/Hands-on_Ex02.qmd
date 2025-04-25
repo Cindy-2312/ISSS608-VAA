@@ -1,0 +1,174 @@
+---
+title: "Hands-on_Ex02"
+---
+
+# Getting Started
+
+## Install and loading required libraries
+
+```{r}
+pacman::p_load(ggrepel, patchwork, 
+               ggthemes, hrbrthemes,
+               tidyverse) 
+```
+
+## Importing data
+
+```{r}
+exam_data <- read_csv("data/Exam_data_2.csv")
+```
+
+# Working with ggrepel
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS, 
+           y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  geom_label(aes(label = ID), 
+             hjust = .5, 
+             vjust = -.5) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## Alternate code to get rid of annotation
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS, 
+           y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  geom_label_repel(aes(label = ID), 
+                   fontface = "bold") +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+# Beyond ggplot2 theme
+
+```{r}
+ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  theme_minimal() +
+  ggtitle("Distribution of Maths scores") 
+```
+
+There are 8 built-in themes of ggplot2, which are: theme_gray(), theme_bw(), theme_classic(), theme_dark(), theme_light(), theme_linedraw(), theme_minimal(), and theme_void()
+
+## Working with ggtheme package
+
+ggtheme offers an even wider variety of plotting styles, such as The Economist (theme_economist) or Stata (theme_stata)
+
+```{r}
+ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  ggtitle("Distribution of Maths scores") +
+  theme_economist()
+```
+
+Working with hrbthemes package Why use this package? It has 2 goals. First, it provides a base theme that focuses on typographic elements. Second, it centers around productivity for a production workflow
+
+# Beyond single graphs
+
+Graphing of Math scores
+
+```{r}
+p1 <- ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") + 
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of Maths scores")
+```
+
+Graphing of English scores
+
+```{r}
+p2 <- ggplot(data=exam_data, 
+             aes(x = ENGLISH)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of English scores")
+```
+
+Graphing scatterplot for English score versus Maths score
+
+```{r}
+p3 <- ggplot(data=exam_data, 
+             aes(x= MATHS, 
+                 y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## Using patchwork extension to create composite figures by combining graphs
+
+install.packages("devtools")
+
+```{r}
+library(patchwork)
+```
+
+### Combining 2 ggplot2 graphs
+
+```{r}
+p1+p2
+```
+
+### Combining 3 ggplot2 graphs
+
+```{r}
+
+(p1 / p2) | p3
+```
+
+### Creating a composite figure with tag
+
+```{r}
+
+((p1 / p2) | p3) + 
+  plot_annotation(tag_levels = 'I')
+```
+
+### Creating figure with insert
+
+```{r}
+
+
+p3 + inset_element(p2, 
+                   left = 0.02, 
+                   bottom = 0.7, 
+                   right = 0.5, 
+                   top = 1)
+```
+
+### Creating a composite figure by using patchwork and ggtheme combined
+
+```{r}
+patchwork <- (p1 / p2) | p3
+patchwork & theme_economist()
+```
