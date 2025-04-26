@@ -1,5 +1,14 @@
 ---
 title: "ISSS608-VAA"
+description: ""
+date: "April 12,2025"
+date-modified: "last-modified"
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false
 ---
 
 Welcome to **ISSS608 Visual Analytics and Applications.** In this website you will find my coursework prepared for this course.
