@@ -244,10 +244,16 @@ patchwork <- (p1 / p2) | p3
 patchwork & theme_economist()
 ```
 
-#### Additional attempt 5:
+#### Additional attempt 5a:
 
 ```{r}
 patchwork <- (p1 | p2) / p3
 patchwork & theme_bw()
 ```
 
+#### Additional attempt 5b:
+
+```{r}
+patchwork <- (p1 / p2) | p3
+patchwork & theme_bw() + theme(plot.title = element_text(size=8))
+```
