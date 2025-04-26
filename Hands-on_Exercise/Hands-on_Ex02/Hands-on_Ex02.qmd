@@ -258,9 +258,12 @@ patchwork <- (p1 / p2) | p3
 patchwork & theme_bw() + theme(plot.title = element_text(size=8))
 ```
 
-#### Suggested solution:
+#### Suggested solution 1: increase figure size
 
 ```{r, fig.width=12, fig.height=7}
 patchwork <- (p1 / p2) | p3 
 patchwork & theme_bw()
 ```
+
+#### Suggested solution 2: Wrap text - divide text into 2 lines
+Use stringr::str_wrap 
