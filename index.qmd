@@ -1,0 +1,27 @@
+---
+title: "ISSS608-VAA"
+author: "Cindy Ta"
+description: ""
+date: "April 12,2025"
+date-modified: "last-modified"
+format: html
+editor: visual
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
+
+Hi there! I'm excited to share my learning journey through **ISSS608 Visual Analytics and Applications**.\
+Although I don't come from a strong technical or coding background, I'm passionate about exploring the power of data visualization — and I'm determined to grow along the way.
+
+This site is a collection of my exercises, projects, and reflections. Each piece reflects not just technical skills, but also my effort to **learn, adapt, and improve**.\
+You'll find:
+
+-   Hands-on Exercise
+
+-   Take-home Exercise
+
+-   Final project
+
+Thank you for visiting. 🌱
