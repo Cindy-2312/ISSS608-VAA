@@ -78,6 +78,7 @@ gg <- ggplot(globalPop,
 ggplotly(gg)
 ```
 
+
 ## 3.3.2. Building interactive, animated bubble chart using plotly()
 
 ```{r bubble-plot, warning=FALSE, message=FALSE}
