@@ -134,6 +134,7 @@ ggplot(exam,
 Raincloud Plot is a data visualisation techniques that produces a half-density to a distribution plot.The raincloud (half-density) plot enhances the traditional box-plot by highlighting multiple modalities (an indicator that groups may exist). The boxplot does not show where densities are clustered, but the raincloud plot does! In this section, the Raincloud plot will be created by using functions provided by **ggdist and ggplot2** packages.
 
 ## 3.1. Plotting a Half Eye graph
+
 This half-eye graph can be created by using **stat_halfeye()** of **ggdist** package
 
 ```{r}
@@ -159,6 +160,7 @@ ggplot(exam,
 ```
 
 ## 3.2. Adding the boxplot with geom_boxplot()
+
 Next, we will add the second geometry layer using geom_boxplot() of ggplot2. This produces a narrow boxplot. We reduce the width and adjust the opacity.
 
 ```{r}
@@ -176,6 +178,7 @@ ggplot(exam,
 ```
 
 ## 3.3. Adding the Dot Plots with stat_dots()
+
 Next, we will add the third geometry layer using stat_dots() of ggdist package. This produces a half-dotplot, which is similar to a histogram that indicates the number of samples (number of dots) in each bin. We select side = “left” to indicate we want it on the left-hand side.
 
 ```{r}
@@ -195,6 +198,7 @@ ggplot(exam,
 ```
 
 ## 3.4. Finishing touch
+
 Lastly, coord_flip() of ggplot2 package will be used to flip the raincloud chart horizontally to give it the raincloud appearance. At the same time, theme_economist() of ggthemes package is used to give the raincloud chart a professional publishing standard look.
 
 ```{r}
