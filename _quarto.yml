@@ -19,6 +19,8 @@ website:
             href: "Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04A.html"
           - text: "Hands-on Exercise 4B"
             href: "Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04B.html"            
+          - text: "Hands-on Exercise 4C"
+            href: "Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04C.html"            
             
       - text: "Take-home Exercise"
         menu:
