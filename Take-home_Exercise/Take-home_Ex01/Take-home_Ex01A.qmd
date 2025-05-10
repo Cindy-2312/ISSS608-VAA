@@ -3,6 +3,8 @@ title: "Take-home Exercise 01"
 author: "Cindy TA"
 ---
 
+# **TAKE-HOME EXERCISE 01 - PHASE 1**
+
 # 1. Introduction
 
 ## 1.1. Setting the scene
@@ -17,6 +19,20 @@ In this take-home exercise, we are assuming the role of the graphical editor of 
 
 ## 2.1. Importing packages and libraries
 
+In this project, the below R packages will be used:
+
+-   *ggrepel* - Provides geoms for ggplot2 to repel overlapping text labels, making charts more readable
+
+-   *patchwork* - Helps combining multiple ggplot2 plots into a single layout
+
+-   *ggthemes* - Offers additional themes, scales, and geoms for ggplot2 to enhance visualization styles
+
+-   *hrbthemes* - A set of typography-centric themes and utilities for ggplot2 (nice fonts and spacing)
+
+-   *tidyverse* - Core collection of R packages designed for data science
+
+-   *ggplot2* - The main R package for creating static graphics using the grammar of graphics framework
+
 ```{r}
 pacman::p_load(ggrepel, patchwork, 
                ggthemes, hrbrthemes,
@@ -29,7 +45,7 @@ The dataset shared by Department of Statistics, Singapore (DOS), *Singapore Resi
 
 ```{r}
 pop_data <- read_csv("data/respopagesex2024.csv")
-glimpse(pop_data)
+head(pop_data)
 ```
 
 ## 2.3. Exploring data
@@ -63,6 +79,14 @@ ggplot(pyramid_data, aes(x = Age, y = Pop, fill = Sex)) +
        x = "Age", y = "Population") +
   theme_classic()
 ```
+
+::: callout-note
+## Findings for Figure 1
+
+-   The age pyramid shows a broad base narrowing progressively with age, typical of a developed country.
+-   Females dominate the older age brackets (70+), reflecting longer life expectancy.
+-   The working-age population (30–50) appears stable.
+:::
 
 ## 3.2. Top 20 most popular planning areas with elderly population shown
 
@@ -116,6 +140,16 @@ ggplot(plot_data, aes(x = PA, y = Population, fill = Type)) +
 
 ```
 
+::: callout-note
+## Findings for Figure 2
+
+-   Tampines, Bedok, and Sengkang have the largest total populations.
+
+-   Bedok stands out with \~70,000 elderly residents.
+
+-   Punggol has a younger demographic despite its size.
+:::
+
 ## 3.3. Elderly Population Share (%) by Planning Area
 
 ```{r}
@@ -141,4 +175,106 @@ ggplot(elderly_pct_data, aes(x = reorder(PA, ElderlyPct), y = ElderlyPct)) +
     y = "Elderly Population (%)"
   ) +
   theme_classic()
+```
+
+::: callout-note
+## Findings for Figure 3
+
+-   Outram, Ang Mo Kio, and Bukit Merah have the highest elderly population shares, each with over 25% of their residents aged 65 and above.
+-   Central and mature estates (e.g., Rochor, Toa Payoh, Queenstown) consistently appear in the top rankings for elderly proportion, highlighting the ageing nature of Singapore’s older housing estates.
+-   In contrast, larger but newer areas like Tampines and Punggol have lower elderly shares (below 20%), indicating a younger overall population.
+:::
+
+# 4. Conclusion
+
+The analysis of Singapore’s 2024 demographic structure highlights several key findings:
+
+1.  Balanced Gender Distribution: The national age pyramid shows a fairly balanced distribution between males and females across most age groups, though the female population dominates at older ages (70+), reflecting longer life expectancy among women. ️
+
+2.  High Elderly Counts in Large Towns: Tampines, Bedok, and Sengkang have the largest total populations and also significant absolute numbers of elderly residents (e.g., Bedok: \~70,000 aged 65+). This suggests that elderly care demand is not only in older towns but also in larger ones.
+
+3.  Ageing Hotspots: When measured by the proportion of elderly (65+), smaller central areas like Outram, Ang Mo Kio, and Bukit Merah show the highest elderly shares (over 25% of their populations). These are mature estates that may require priority attention for ageing-in-place policies.
+
+# 5. Reference
+
+[*Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024*](https://www.singstat.gov.sg/find-data)
+
+# **TAKE-HOME EXERCISE 01 - PHASE 2**
+
+# 1. The task
+
+Selecting one submission provided by your classmate, critic three good design principles and three areas for further improvement. With reference to the comment, prepare the makeover version of the data visualization.
+
+[*My peer's work*](https://isss608-minhtetaung.netlify.app/take-home_ex/take-home_ex01/take-home_ex01)
+
+# 2. Comments on the Work
+
+## 2.1. Three Good Design Principles
+
+1.  Clear Narrative & Structure The submission provides a clear introduction, context, and explanation for each chart, ensuring the reader understands the purpose of the visualizations. Sections are well-organized with descriptive headings (e.g., “Top 28 Planning Areas by Total Population”).
+
+2.  Effective Chart Titles & Labels Each chart includes concise titles, axis labels, and legends, which make it very easy to interpret the visuals at a glance. The population counts are also nicely formatted (e.g., using commas).
+
+3.  Consistent Styling & Theme The use of a consistent minimal theme (theme_minimal()) and a cohesive color scheme across charts (e.g., blue for males, red/pink for females) helps maintain a professional and unified look.
+
+## 2.2. Three Areas for Improvements
+
+1.  Color Accessibility While the color scheme is clean, the blue and pink/red tones might be hard to distinguish for colorblind users. Using a colorblind-friendly palette (e.g., via viridis or RColorBrewer) would make the charts more inclusive.
+
+2.  Chart Density & Layout The combined plot (Section 3.1.3) has a large white gap between the two charts (because of the spacer in plot_layout()). This disrupts visual flow. The layout could be improved by: Placing the charts side by side if space allows, Or reducing the spacer height for a tighter design.
+
+3.  Population Pyramid Facet Scaling In the population pyramids (Section 3.2), the facet_wrap uses scales = "free_y", causing inconsistent y-axis scales across facets. This makes it harder to compare populations between areas. Using a fixed y-scale or at least adding annotations explaining the difference would improve interpretability.
+
+## 2.3. Makeover Version of the data visualization
+
+Improved Layout for Combined Plot
+
+```{r}
+sg_res <- pop_data
+
+# Original code
+top_24_pas <- sg_res %>%
+  group_by(PA) %>%
+  summarise(Total = sum(Pop), .groups = "drop") %>%
+  slice_max(order_by = Total, n = 24) %>%
+  pull(PA)
+
+pyramid_data_top24 <- sg_res %>%
+  filter(PA %in% top_24_pas) %>%
+  group_by(PA, Age, Sex) %>%
+  summarise(Pop = sum(Pop), .groups = "drop") %>%
+  mutate(
+    Age = ifelse(Age == "90_and_Over", 90, as.numeric(Age)),
+    Pop = ifelse(Sex == "Males", -Pop, Pop)
+  )
+
+# Get max pop for consistent y-axis
+max_pop <- pyramid_data_top24 %>%
+  group_by(PA) %>%
+  summarise(total = sum(Pop)) %>%
+  pull(total) %>%
+  max()
+
+# Makeover plot
+pyramid_makeover <- ggplot(pyramid_data_top24, aes(x = Age, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", width = 0.8) +
+  coord_flip() +
+  scale_y_continuous(labels = abs, limits = c(-max_pop, max_pop)) +  # Fix y-axis scale
+  facet_wrap(~PA, scales = "fixed", ncol = 6) +
+  labs(
+    title = "Population Pyramids of Top 24 Planning Areas (Consistent Y-Axis)",
+    x = "Age Group",
+    y = "Population"
+  ) +
+  theme_minimal(base_size = 9) +
+  theme(
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
+    plot.title = element_text(size = 24)
+  ) +
+  scale_fill_viridis_d(option = "D", begin = 0.2, end = 0.8)
+```
+
+```{r}
+print(pyramid_makeover)
 ```
