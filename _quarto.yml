@@ -31,8 +31,10 @@ website:
         menu:
           - text: "Take-home Exercise 1"
             href: "Take-home_Exercise/Take-home_Ex01/Take-home_Ex01A.html"
-        
-
+          - text: "Take-home Exercise 2 - Data Prep"
+            href: "Take-home_Exercise/Take-home_Ex02/Take-home_Ex02-DataPrep.html"        
+          - text: "Take-home Exercise 2 - Data Prep"
+            href: ""
   
     right: 
       - text: "Home"
