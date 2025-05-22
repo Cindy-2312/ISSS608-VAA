@@ -124,6 +124,7 @@ kable(influencers_tbl)
 Sailor Shift’s musical style has been shaped by multiple artists, most notably *Cassian Storm* and *Claire Holmes*. Through lyrical references and musical interpolation, their influence can be traced in her work. These connections highlight Sailor’s deep engagement with other artists' material, reinforcing her commitment to honoring and evolving the Oceanus Folk and broader indie styles.
 :::
 
+
 # Question 2: Who has she collaborated with and directly or indirectly influenced?
 
 # Question 3: How has she influenced collaborators and the Oceanus Folk community?
