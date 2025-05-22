@@ -8,7 +8,7 @@
 
 <meta name="author" content="Cindy TA">
 
-<title>Take-home Exercise 02 - Minicase 1 – ISSS608-VAA</title>
+<title>Take-home Exercise 02 – ISSS608-VAA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -166,6 +166,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex05/Hands-on_Ex05.html">
  <span class="dropdown-text">Hands-on Exercise 5</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex06/Hands-on_Ex06.html">
+ <span class="dropdown-text">Hands-on Exercise 6</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -177,6 +181,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Take-home_Exercise/Take-home_Ex01/Take-home_Ex01A.html">
  <span class="dropdown-text">Take-home Exercise 1</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-home_Exercise/Take-home_Ex02/Take-home_Ex02-DataPrep.html">
+ <span class="dropdown-text">Take-home Exercise 2 - Data Prep</span></a>
+  </li>  
+        <li class="dropdown-header">Take-home Exercise 2 - Data Prep</li>
     </ul>
   </li>
 </ul>
@@ -208,31 +217,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">1. Getting Started</a>
   <ul class="collapse">
   <li><a href="#loading-r-packages" id="toc-loading-r-packages" class="nav-link" data-scroll-target="#loading-r-packages">1.1. Loading R packages</a></li>
+  <li><a href="#importing-knowledge-graph-data" id="toc-importing-knowledge-graph-data" class="nav-link" data-scroll-target="#importing-knowledge-graph-data">1.2. Importing knowledge graph data</a></li>
+  <li><a href="#extracting-the-edges-and-nodes-table" id="toc-extracting-the-edges-and-nodes-table" class="nav-link" data-scroll-target="#extracting-the-edges-and-nodes-table">1.3. Extracting the edges and nodes table</a></li>
+  <li><a href="#mapping-from-node-id-to-row-index" id="toc-mapping-from-node-id-to-row-index" class="nav-link" data-scroll-target="#mapping-from-node-id-to-row-index">1.4. Mapping from node id to row index</a></li>
+  <li><a href="#map-source-and-target-ids-to-row-indices" id="toc-map-source-and-target-ids-to-row-indices" class="nav-link" data-scroll-target="#map-source-and-target-ids-to-row-indices">1.5. Map source and target IDs to row indices</a></li>
+  <li><a href="#filter-out-any-unmatched-invalid-edges" id="toc-filter-out-any-unmatched-invalid-edges" class="nav-link" data-scroll-target="#filter-out-any-unmatched-invalid-edges">1.6. Filter out any unmatched (invalid) edges</a></li>
+  <li><a href="#creating-tidygraph" id="toc-creating-tidygraph" class="nav-link" data-scroll-target="#creating-tidygraph">1.7. Creating tidygraph()</a></li>
   </ul></li>
-  <li><a href="#importing-knowledge-graph-data" id="toc-importing-knowledge-graph-data" class="nav-link" data-scroll-target="#importing-knowledge-graph-data">2. Importing knowledge graph data</a>
+  <li><a href="#question-1-who-has-sailor-shift-been-most-influenced-by-over-time" id="toc-question-1-who-has-sailor-shift-been-most-influenced-by-over-time" class="nav-link" data-scroll-target="#question-1-who-has-sailor-shift-been-most-influenced-by-over-time">Question 1: Who has Sailor Shift been most influenced by over time?</a>
   <ul class="collapse">
-  <li><a href="#inspecting-the-data-structure" id="toc-inspecting-the-data-structure" class="nav-link" data-scroll-target="#inspecting-the-data-structure">2.1. Inspecting the data structure</a></li>
+  <li><a href="#standardize-column-names" id="toc-standardize-column-names" class="nav-link" data-scroll-target="#standardize-column-names">Standardize column names</a></li>
+  <li><a href="#check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc." id="toc-check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc." class="nav-link" data-scroll-target="#check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc.">Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)</a></li>
+  <li><a href="#get-sailor-shifts-node-id" id="toc-get-sailor-shifts-node-id" class="nav-link" data-scroll-target="#get-sailor-shifts-node-id">Get Sailor Shift’s node ID</a></li>
+  <li><a href="#try-multiple-influence-related-edge-types" id="toc-try-multiple-influence-related-edge-types" class="nav-link" data-scroll-target="#try-multiple-influence-related-edge-types">Try multiple influence-related edge types</a></li>
+  <li><a href="#find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related" id="toc-find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related" class="nav-link" data-scroll-target="#find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related">Find all edges where Sailor is the target and the edge is influence-related</a></li>
+  <li><a href="#join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers" id="toc-join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers" class="nav-link" data-scroll-target="#join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers">Join with nodes_tbl to get details of source nodes (the influencers)</a></li>
   </ul></li>
-  <li><a href="#extracting-the-edges-and-nodes-table" id="toc-extracting-the-edges-and-nodes-table" class="nav-link" data-scroll-target="#extracting-the-edges-and-nodes-table">3. Extracting the edges and nodes table</a></li>
-  <li><a href="#initial-eda" id="toc-initial-eda" class="nav-link" data-scroll-target="#initial-eda">3.1. Initial EDA</a></li>
-  <li><a href="#creating-knowledge-graph" id="toc-creating-knowledge-graph" class="nav-link" data-scroll-target="#creating-knowledge-graph">4. Creating knowledge graph</a>
-  <ul class="collapse">
-  <li><a href="#mapping-from-node-id-to-row-index" id="toc-mapping-from-node-id-to-row-index" class="nav-link" data-scroll-target="#mapping-from-node-id-to-row-index">4.1. Mapping from node id to row index</a></li>
-  <li><a href="#map-source-and-target-ids-to-row-indices" id="toc-map-source-and-target-ids-to-row-indices" class="nav-link" data-scroll-target="#map-source-and-target-ids-to-row-indices">4.2. Map source and target IDs to row indices</a></li>
-  <li><a href="#filter-out-any-unmatched-invalid-edges" id="toc-filter-out-any-unmatched-invalid-edges" class="nav-link" data-scroll-target="#filter-out-any-unmatched-invalid-edges">4.3. Filter out any unmatched (invalid) edges</a></li>
-  <li><a href="#creating-tidygraph" id="toc-creating-tidygraph" class="nav-link" data-scroll-target="#creating-tidygraph">4.4. Creating tidygraph()</a></li>
-  </ul></li>
-  <li><a href="#visualizing-the-knowledge-graph" id="toc-visualizing-the-knowledge-graph" class="nav-link" data-scroll-target="#visualizing-the-knowledge-graph">5. Visualizing the knowledge graph</a>
-  <ul class="collapse">
-  <li><a href="#visualising-the-whole-graph" id="toc-visualising-the-whole-graph" class="nav-link" data-scroll-target="#visualising-the-whole-graph">5.1. Visualising the whole graph</a></li>
-  <li><a href="#visualising-the-sub-graph" id="toc-visualising-the-sub-graph" class="nav-link" data-scroll-target="#visualising-the-sub-graph">5.2. Visualising the sub-graph</a>
-  <ul class="collapse">
-  <li><a href="#filtering-edges-to-only-memberof" id="toc-filtering-edges-to-only-memberof" class="nav-link" data-scroll-target="#filtering-edges-to-only-memberof">Filtering edges to only “MemberOf”</a></li>
-  <li><a href="#extracting-only-connected-nodes-i.e.-used-in-these-edges" id="toc-extracting-only-connected-nodes-i.e.-used-in-these-edges" class="nav-link" data-scroll-target="#extracting-only-connected-nodes-i.e.-used-in-these-edges">Extracting only connected nodes (i.e., used in these edges)</a></li>
-  <li><a href="#keeping-only-those-nodes" id="toc-keeping-only-those-nodes" class="nav-link" data-scroll-target="#keeping-only-those-nodes">Keeping only those nodes</a></li>
-  <li><a href="#plotting-the-sub-graph" id="toc-plotting-the-sub-graph" class="nav-link" data-scroll-target="#plotting-the-sub-graph">Plotting the sub-graph</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced" id="toc-question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced" class="nav-link" data-scroll-target="#question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced">Question 2: Who has she collaborated with and directly or indirectly influenced?</a></li>
+  <li><a href="#question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community" id="toc-question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community" class="nav-link" data-scroll-target="#question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community">Question 3: How has she influenced collaborators and the Oceanus Folk community?</a></li>
   </ul>
 </nav>
     </div>
@@ -241,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Take-home Exercise 02 - Minicase 1</h1>
+<h1 class="title">Take-home Exercise 02</h1>
 </div>
 
 
@@ -271,202 +273,215 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this take-home exercise, the 4 packages below will be used:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, jsonlite,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidygraph, ggraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidygraph, ggraph, knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="importing-knowledge-graph-data" class="level1">
-<h1>2. Importing knowledge graph data</h1>
+<section id="importing-knowledge-graph-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-knowledge-graph-data">1.2. Importing knowledge graph data</h2>
 <p>For the purpose of this exercise, MC1_graph.json file will be used. In the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>kg <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">"C:/Cindy-2312/ISSS608-VAA/Take-home_Exercise/MC1_release/MC1_graph.json"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="inspecting-the-data-structure" class="level2">
-<h2 class="anchored" data-anchor-id="inspecting-the-data-structure">2.1. Inspecting the data structure</h2>
-<p>Before preparing the data, it is always a good practice to examine the structure of kg object. In the code chunk below str() is used to reveal the structure of kg object.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(kg, <span class="at">max.level =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 5
- $ directed  : logi TRUE
- $ multigraph: logi TRUE
- $ graph     :List of 2
- $ nodes     :'data.frame': 17412 obs. of  10 variables:
- $ links     :'data.frame': 37857 obs. of  4 variables:</code></pre>
-</div>
-</div>
 </section>
-</section>
-<section id="extracting-the-edges-and-nodes-table" class="level1">
-<h1>3. Extracting the edges and nodes table</h1>
+<section id="extracting-the-edges-and-nodes-table" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-the-edges-and-nodes-table">1.3. Extracting the edges and nodes table</h2>
 <p>Next, as_tibble() of tibble package package is used to extract the nodes and links tibble data frames from kg object into two separate tibble data frames called nodes_tbl and edges_tbl respectively.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nodes_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>nodes)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>links) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nodes_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>nodes)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>links) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="initial-eda" class="level1">
-<h1>3.1. Initial EDA</h1>
-<p>It is time for us to apply appropriate EDA methods to examine the data. In this code chunk below, ggplot2 functions are used the reveal the frequency distribution of Edge Type field of edges_tbl.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> edges_tbl,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>On the other hands, code chunk below uses ggplot2 functions to reveal the frequency distribution of Node Type field of nodes_tbl.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> nodes_tbl,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="creating-knowledge-graph" class="level1">
-<h1>4. Creating knowledge graph</h1>
 <section id="mapping-from-node-id-to-row-index" class="level2">
-<h2 class="anchored" data-anchor-id="mapping-from-node-id-to-row-index">4.1. Mapping from node id to row index</h2>
+<h2 class="anchored" data-anchor-id="mapping-from-node-id-to-row-index">1.4. Mapping from node id to row index</h2>
 <p>Before we can go ahead to build the tidygraph object, it is important for us to ensure each id from the node list is mapped to the correct row number. This requirement can be achieved by using the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>id_map <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> nodes_tbl<span class="sc">$</span>id,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">index =</span> <span class="fu">seq_len</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">nrow</span>(nodes_tbl)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>id_map <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> nodes_tbl<span class="sc">$</span>id,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">index =</span> <span class="fu">seq_len</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">nrow</span>(nodes_tbl)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="map-source-and-target-ids-to-row-indices" class="level2">
-<h2 class="anchored" data-anchor-id="map-source-and-target-ids-to-row-indices">4.2. Map source and target IDs to row indices</h2>
+<h2 class="anchored" data-anchor-id="map-source-and-target-ids-to-row-indices">1.5. Map source and target IDs to row indices</h2>
 <p>Next, we will map the source and the target IDs to row indices by using the code chunk below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(id_map, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">from =</span> index) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(id_map, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"target"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">to =</span> index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(id_map, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">from =</span> index) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(id_map, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"target"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">to =</span> index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="filter-out-any-unmatched-invalid-edges" class="level2">
-<h2 class="anchored" data-anchor-id="filter-out-any-unmatched-invalid-edges">4.3. Filter out any unmatched (invalid) edges</h2>
+<h2 class="anchored" data-anchor-id="filter-out-any-unmatched-invalid-edges">1.6. Filter out any unmatched (invalid) edges</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(from), <span class="sc">!</span><span class="fu">is.na</span>(to))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(from), <span class="sc">!</span><span class="fu">is.na</span>(to))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="creating-tidygraph" class="level2">
-<h2 class="anchored" data-anchor-id="creating-tidygraph">4.4. Creating tidygraph()</h2>
+<h2 class="anchored" data-anchor-id="creating-tidygraph">1.7. Creating tidygraph()</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">tbl_graph</span>(<span class="at">nodes =</span> nodes_tbl, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">edges =</span> edges_tbl, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">directed =</span> kg<span class="sc">$</span>directed)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(graph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">tbl_graph</span>(<span class="at">nodes =</span> nodes_tbl, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">edges =</span> edges_tbl, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">directed =</span> kg<span class="sc">$</span>directed)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(graph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_graph" "igraph"   </code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="visualizing-the-knowledge-graph" class="level1">
-<h1>5. Visualizing the knowledge graph</h1>
+<section id="question-1-who-has-sailor-shift-been-most-influenced-by-over-time" class="level1">
+<h1>Question 1: Who has Sailor Shift been most influenced by over time?</h1>
+<section id="standardize-column-names" class="level3">
+<h3 class="anchored" data-anchor-id="standardize-column-names">Standardize column names</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">type =</span> <span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualising-the-whole-graph" class="level2">
-<h2 class="anchored" data-anchor-id="visualising-the-whole-graph">5.1. Visualising the whole graph</h2>
+</section>
+<section id="check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc." class="level3">
+<h3 class="anchored" data-anchor-id="check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc.">Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(graph, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>), </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repel =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: ggrepel: 17411 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps</code></pre>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>unique_edge_types <span class="ot">&lt;-</span> <span class="fu">unique</span>(edges_tbl<span class="sc">$</span>type)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(unique_edge_types)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "InterpolatesFrom"   "RecordedBy"         "PerformerOf"       
+ [4] "ComposerOf"         "ProducerOf"         "InStyleOf"         
+ [7] "LyricalReferenceTo" "CoverOf"            "DistributedBy"     
+[10] "MemberOf"           "LyricistOf"         "DirectlySamples"   </code></pre>
 </div>
+</div>
+</section>
+<section id="get-sailor-shifts-node-id" class="level3">
+<h3 class="anchored" data-anchor-id="get-sailor-shifts-node-id">Get Sailor Shift’s node ID</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sailor_id <span class="ot">&lt;-</span> nodes_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Sailor Shift"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="try-multiple-influence-related-edge-types" class="level3">
+<h3 class="anchored" data-anchor-id="try-multiple-influence-related-edge-types">Try multiple influence-related edge types</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>influence_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"InterpolatesFrom"</span>, <span class="st">"RecordedBy"</span>, <span class="st">"PerformerOfComposerOf"</span>, <span class="st">"ProducerOf"</span>,<span class="st">"InStyleOf"</span>, <span class="st">"LyricalReferenceTo"</span> ,<span class="st">"CoverOf"</span>,<span class="st">"DistributedBy"</span>,<span class="st">"MemberOf"</span>, <span class="st">"LyricistOf"</span>, <span class="st">"DirectlySamples"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related" class="level3">
+<h3 class="anchored" data-anchor-id="find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related">Find all edges where Sailor is the target and the edge is influence-related</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sailor_influences <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">%in%</span> influence_types, target <span class="sc">==</span> sailor_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers" class="level3">
+<h3 class="anchored" data-anchor-id="join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers">Join with nodes_tbl to get details of source nodes (the influencers)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>influencers_tbl <span class="ot">&lt;-</span> sailor_influences <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Node Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Person"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, genre, notable, <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>, <span class="fu">everything</span>())</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># View the result</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(influencers_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">genre</th>
+<th style="text-align: left;">notable</th>
+<th style="text-align: left;">Node Type</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">source</th>
+<th style="text-align: right;">target</th>
+<th style="text-align: right;">key</th>
+<th style="text-align: right;">from</th>
+<th style="text-align: right;">to</th>
+<th style="text-align: left;">single</th>
+<th style="text-align: left;">release_date</th>
+<th style="text-align: left;">written_date</th>
+<th style="text-align: left;">stage_name</th>
+<th style="text-align: left;">notoriety_date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cassian Storm</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Person</td>
+<td style="text-align: left;">LyricalReferenceTo</td>
+<td style="text-align: right;">17126</td>
+<td style="text-align: right;">17255</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">17127</td>
+<td style="text-align: right;">17256</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Seraphina Vale</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Claire Holmes</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Person</td>
+<td style="text-align: left;">InterpolatesFrom</td>
+<td style="text-align: right;">17155</td>
+<td style="text-align: right;">17255</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">17156</td>
+<td style="text-align: right;">17256</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Jaye Finch</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conclusion for Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sailor Shift’s musical style has been shaped by multiple artists, most notably <em>Cassian Storm</em> and <em>Claire Holmes</em>. Through lyrical references and musical interpolation, their influence can be traced in her work. These connections highlight Sailor’s deep engagement with other artists’ material, reinforcing her commitment to honoring and evolving the Oceanus Folk and broader indie styles.</p>
 </div>
 </div>
 </section>
-<section id="visualising-the-sub-graph" class="level2">
-<h2 class="anchored" data-anchor-id="visualising-the-sub-graph">5.2. Visualising the sub-graph</h2>
-<p>In this section, we are interested to create a sub-graph base on MemberOf value in Edge Type column of the edges data frame.</p>
-<section id="filtering-edges-to-only-memberof" class="level3">
-<h3 class="anchored" data-anchor-id="filtering-edges-to-only-memberof">Filtering edges to only “MemberOf”</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>graph_memberof <span class="ot">&lt;-</span> graph <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(edges) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"MemberOf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
-<section id="extracting-only-connected-nodes-i.e.-used-in-these-edges" class="level3">
-<h3 class="anchored" data-anchor-id="extracting-only-connected-nodes-i.e.-used-in-these-edges">Extracting only connected nodes (i.e., used in these edges)</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>used_node_indices <span class="ot">&lt;-</span> graph_memberof <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(edges) <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced" class="level1">
+<h1>Question 2: Who has she collaborated with and directly or indirectly influenced?</h1>
 </section>
-<section id="keeping-only-those-nodes" class="level3">
-<h3 class="anchored" data-anchor-id="keeping-only-those-nodes">Keeping only those nodes</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>graph_memberof <span class="ot">&lt;-</span> graph_memberof <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">row_id =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(row_id <span class="sc">%in%</span> used_node_indices) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>row_id)  <span class="co"># optional cleanup</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="plotting-the-sub-graph" class="level3">
-<h3 class="anchored" data-anchor-id="plotting-the-sub-graph">Plotting the sub-graph</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(graph_memberof, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>), </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repel =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: ggrepel: 790 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community" class="level1">
+<h1>Question 3: How has she influenced collaborators and the Oceanus Folk community?</h1>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
