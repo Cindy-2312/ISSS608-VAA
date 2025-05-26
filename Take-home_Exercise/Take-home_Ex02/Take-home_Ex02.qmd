@@ -3,6 +3,8 @@ title: "Take-home Exercise 02"
 author: "Cindy TA"
 format: html
 ---
+# The Task
+In this take-home exercise, Mini-challenge 1 from VAST challenge was chosen. In this Mini-Challenge 1, we are provided a knowledge graph of containing recording artists, albums, collaborations, concerts, influences, and more. The goal will be to develop visual analytics approaches to trace the rise of one artist and predict who will be next to break out.
 
 # 1. Getting Started
 
@@ -11,8 +13,8 @@ format: html
 In this take-home exercise, the 4 packages below will be used:
 
 ```{r}
-pacman::p_load(tidyverse, jsonlite,
-               tidygraph, ggraph, knitr)
+pacman::p_load(tidyverse, jsonlite, dplyr,
+               tidygraph, ggraph, knitr, igraph, visNetwork)
 ```
 
 ## 1.2. Importing knowledge graph data
@@ -28,8 +30,8 @@ kg <- fromJSON("C:/Cindy-2312/ISSS608-VAA/Take-home_Exercise/MC1_release/MC1_gra
 Next, as_tibble() of tibble package package is used to extract the nodes and links tibble data frames from kg object into two separate tibble data frames called nodes_tbl and edges_tbl respectively.
 
 ```{r}
-nodes_tbl <- as_tibble(kg$nodes)
-edges_tbl <- as_tibble(kg$links) 
+nodes_tbl <- as_tibble(kg$nodes) 
+edges_tbl <- as_tibble(kg$links)
 ```
 
 ## 1.4. Mapping from node id to row index
@@ -72,58 +74,48 @@ class(graph)
 
 # Question 1: Who has Sailor Shift been most influenced by over time?
 
-### Standardize column names
+## First approach: Static summary
 
 ```{r}
-edges_tbl <- edges_tbl %>%
+# Standardize column names
+ edges_tbl <- edges_tbl %>%
   rename(type = `Edge Type`)
-```
 
-### Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)
-
-```{r}
+# Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)
 unique_edge_types <- unique(edges_tbl$type)
 print(unique_edge_types)
-```
 
-### Get Sailor Shift's node ID
-
-```{r}
+# Get Sailor Shift's node ID
 sailor_id <- nodes_tbl %>%
   filter(name == "Sailor Shift") %>%
   pull(id)
-```
 
-### Try multiple influence-related edge types
-
-```{r}
+# Try multiple influence-related edge types
 influence_types <- c("InterpolatesFrom", "RecordedBy", "PerformerOfComposerOf", "ProducerOf","InStyleOf", "LyricalReferenceTo" ,"CoverOf","DistributedBy","MemberOf", "LyricistOf", "DirectlySamples" )
-```
 
-### Find all edges where Sailor is the target and the edge is influence-related
-
-```{r}
+# Find all edges where Sailor is the target and the edge is influence-related
 sailor_influences <- edges_tbl %>%
   filter(type %in% influence_types, target == sailor_id)
-```
 
-### Join with nodes_tbl to get details of source nodes (the influencers)
-
-```{r}
+# Join with nodes_tbl to get details of source nodes (the influencers)
 influencers_tbl <- sailor_influences %>%
   left_join(nodes_tbl, by = c("source" = "id")) %>%
   filter(`Node Type` == "Person") %>%
   select(name, genre, notable, `Node Type`, everything())
+
 # View the result
 kable(influencers_tbl)
 ```
+
+## Second approach: Visual
+
+
 
 ::: callout-note
 ## Conclusion for Question 1
 
 Sailor Shift’s musical style has been shaped by multiple artists, most notably *Cassian Storm* and *Claire Holmes*. Through lyrical references and musical interpolation, their influence can be traced in her work. These connections highlight Sailor’s deep engagement with other artists' material, reinforcing her commitment to honoring and evolving the Oceanus Folk and broader indie styles.
 :::
-
 
 # Question 2: Who has she collaborated with and directly or indirectly influenced?
 

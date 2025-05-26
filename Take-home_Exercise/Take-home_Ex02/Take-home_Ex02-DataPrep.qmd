@@ -6,6 +6,7 @@ author: "Cindy TA"
 # 1. Getting Started
 
 ## 1.1. Loading R packages
+
 In this take-home exercise, the 4 packages below will be used:
 
 ```{r}
@@ -14,28 +15,34 @@ pacman::p_load(tidyverse, jsonlite,
 ```
 
 # 2. Importing knowledge graph data
+
 For the purpose of this exercise, MC1_graph.json file will be used. In the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object
+
 ```{r}
 kg <- fromJSON("C:/Cindy-2312/ISSS608-VAA/Take-home_Exercise/MC1_release/MC1_graph.json")
 ```
 
 ## 2.1. Inspecting the data structure
-Before preparing the data, it is always a good practice to examine the structure of kg object.
-In the code chunk below str() is used to reveal the structure of kg object.
+
+Before preparing the data, it is always a good practice to examine the structure of kg object. In the code chunk below str() is used to reveal the structure of kg object.
+
 ```{r}
 str(kg, max.level = 1)
 ```
 
 # 3. Extracting the edges and nodes table
+
 Next, as_tibble() of tibble package package is used to extract the nodes and links tibble data frames from kg object into two separate tibble data frames called nodes_tbl and edges_tbl respectively.
+
 ```{r}
 nodes_tbl <- as_tibble(kg$nodes)
 edges_tbl <- as_tibble(kg$links) 
 ```
 
 # 3.1. Initial EDA
-It is time for us to apply appropriate EDA methods to examine the data.
-In this code chunk below, ggplot2 functions are used the reveal the frequency distribution of Edge Type field of edges_tbl.
+
+It is time for us to apply appropriate EDA methods to examine the data. In this code chunk below, ggplot2 functions are used the reveal the frequency distribution of Edge Type field of edges_tbl.
+
 ```{r}
 ggplot(data = edges_tbl,
        aes(y = `Edge Type`)) +
@@ -53,7 +60,9 @@ ggplot(data = nodes_tbl,
 # 4. Creating knowledge graph
 
 ## 4.1. Mapping from node id to row index
+
 Before we can go ahead to build the tidygraph object, it is important for us to ensure each id from the node list is mapped to the correct row number. This requirement can be achieved by using the code chunk below.
+
 ```{r}
 id_map <- tibble(id = nodes_tbl$id,
                  index = seq_len(
@@ -61,6 +70,7 @@ id_map <- tibble(id = nodes_tbl$id,
 ```
 
 ## 4.2. Map source and target IDs to row indices
+
 Next, we will map the source and the target IDs to row indices by using the code chunk below.
 
 ```{r}
@@ -72,19 +82,23 @@ edges_tbl <- edges_tbl %>%
 ```
 
 ## 4.3. Filter out any unmatched (invalid) edges
+
 ```{r}
 edges_tbl <- edges_tbl %>%
   filter(!is.na(from), !is.na(to))
 ```
 
 ## 4.4. Creating tidygraph()
+
 ```{r}
 graph <- tbl_graph(nodes = nodes_tbl, 
                    edges = edges_tbl, 
                    directed = kg$directed)
 class(graph)
 ```
+
 # 5. Visualizing the knowledge graph
+
 ```{r}
 set.seed(1234)
 ```
@@ -92,9 +106,11 @@ set.seed(1234)
 ## 5.1. Visualising the whole graph
 
 ## 5.2. Visualising the sub-graph
+
 In this section, we are interested to create a sub-graph base on MemberOf value in Edge Type column of the edges data frame.
 
 ### Filtering edges to only “MemberOf”
+
 ```{r}
 graph_memberof <- graph %>%
   activate(edges) %>%
@@ -102,6 +118,7 @@ graph_memberof <- graph %>%
 ```
 
 ### Extracting only connected nodes (i.e., used in these edges)
+
 ```{r}
 used_node_indices <- graph_memberof %>%
   activate(edges) %>%
@@ -112,6 +129,7 @@ used_node_indices <- graph_memberof %>%
 ```
 
 ### Keeping only those nodes
+
 ```{r}
 graph_memberof <- graph_memberof %>%
   activate(nodes) %>%
@@ -121,6 +139,7 @@ graph_memberof <- graph_memberof %>%
 ```
 
 ### Plotting the sub-graph
+
 ```{r}
 ggraph(graph_memberof, 
        layout = "fr") +
@@ -133,11 +152,3 @@ ggraph(graph_memberof,
                  size = 2.5) +
   theme_void()
 ```
-
-
-
-
-
-
-
-

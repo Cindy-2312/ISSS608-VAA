@@ -217,7 +217,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">1. Getting Started</a>
+  <li><a href="#the-task" id="toc-the-task" class="nav-link active" data-scroll-target="#the-task">The Task</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">1. Getting Started</a>
   <ul class="collapse">
   <li><a href="#loading-r-packages" id="toc-loading-r-packages" class="nav-link" data-scroll-target="#loading-r-packages">1.1. Loading R packages</a></li>
   <li><a href="#importing-knowledge-graph-data" id="toc-importing-knowledge-graph-data" class="nav-link" data-scroll-target="#importing-knowledge-graph-data">1.2. Importing knowledge graph data</a></li>
@@ -229,12 +230,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#question-1-who-has-sailor-shift-been-most-influenced-by-over-time" id="toc-question-1-who-has-sailor-shift-been-most-influenced-by-over-time" class="nav-link" data-scroll-target="#question-1-who-has-sailor-shift-been-most-influenced-by-over-time">Question 1: Who has Sailor Shift been most influenced by over time?</a>
   <ul class="collapse">
-  <li><a href="#standardize-column-names" id="toc-standardize-column-names" class="nav-link" data-scroll-target="#standardize-column-names">Standardize column names</a></li>
-  <li><a href="#check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc." id="toc-check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc." class="nav-link" data-scroll-target="#check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc.">Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)</a></li>
-  <li><a href="#get-sailor-shifts-node-id" id="toc-get-sailor-shifts-node-id" class="nav-link" data-scroll-target="#get-sailor-shifts-node-id">Get Sailor Shift’s node ID</a></li>
-  <li><a href="#try-multiple-influence-related-edge-types" id="toc-try-multiple-influence-related-edge-types" class="nav-link" data-scroll-target="#try-multiple-influence-related-edge-types">Try multiple influence-related edge types</a></li>
-  <li><a href="#find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related" id="toc-find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related" class="nav-link" data-scroll-target="#find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related">Find all edges where Sailor is the target and the edge is influence-related</a></li>
-  <li><a href="#join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers" id="toc-join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers" class="nav-link" data-scroll-target="#join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers">Join with nodes_tbl to get details of source nodes (the influencers)</a></li>
+  <li><a href="#first-approach-static-summary" id="toc-first-approach-static-summary" class="nav-link" data-scroll-target="#first-approach-static-summary">First approach: Static summary</a></li>
+  <li><a href="#second-approach-visual" id="toc-second-approach-visual" class="nav-link" data-scroll-target="#second-approach-visual">Second approach: Visual</a></li>
   </ul></li>
   <li><a href="#question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced" id="toc-question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced" class="nav-link" data-scroll-target="#question-2-who-has-she-collaborated-with-and-directly-or-indirectly-influenced">Question 2: Who has she collaborated with and directly or indirectly influenced?</a></li>
   <li><a href="#question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community" id="toc-question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community" class="nav-link" data-scroll-target="#question-3-how-has-she-influenced-collaborators-and-the-oceanus-folk-community">Question 3: How has she influenced collaborators and the Oceanus Folk community?</a></li>
@@ -269,14 +266,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="the-task" class="level1">
+<h1>The Task</h1>
+<p>In this take-home exercise, Mini-challenge 1 from VAST challenge was chosen. In this Mini-Challenge 1, we are provided a knowledge graph of containing recording artists, albums, collaborations, concerts, influences, and more. The goal will be to develop visual analytics approaches to trace the rise of one artist and predict who will be next to break out.</p>
+</section>
 <section id="getting-started" class="level1">
 <h1>1. Getting Started</h1>
 <section id="loading-r-packages" class="level2">
 <h2 class="anchored" data-anchor-id="loading-r-packages">1.1. Loading R packages</h2>
 <p>In this take-home exercise, the 4 packages below will be used:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, jsonlite,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidygraph, ggraph, knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, jsonlite, dplyr,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidygraph, ggraph, knitr, igraph, visNetwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="importing-knowledge-graph-data" class="level2">
@@ -290,8 +291,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="extracting-the-edges-and-nodes-table">1.3. Extracting the edges and nodes table</h2>
 <p>Next, as_tibble() of tibble package package is used to extract the nodes and links tibble data frames from kg object into two separate tibble data frames called nodes_tbl and edges_tbl respectively.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nodes_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>nodes)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>links) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nodes_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>nodes) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(kg<span class="sc">$</span>links)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="mapping-from-node-id-to-row-index" class="level2">
@@ -336,56 +337,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="question-1-who-has-sailor-shift-been-most-influenced-by-over-time" class="level1">
 <h1>Question 1: Who has Sailor Shift been most influenced by over time?</h1>
-<section id="standardize-column-names" class="level3">
-<h3 class="anchored" data-anchor-id="standardize-column-names">Standardize column names</h3>
+<section id="first-approach-static-summary" class="level2">
+<h2 class="anchored" data-anchor-id="first-approach-static-summary">First approach: Static summary</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">type =</span> <span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc." class="level3">
-<h3 class="anchored" data-anchor-id="check-what-edge-types-are-available-e.g.-influencedby-instyleof-etc.">Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>unique_edge_types <span class="ot">&lt;-</span> <span class="fu">unique</span>(edges_tbl<span class="sc">$</span>type)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(unique_edge_types)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize column names</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a> edges_tbl <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">type =</span> <span class="st">`</span><span class="at">Edge Type</span><span class="st">`</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>unique_edge_types <span class="ot">&lt;-</span> <span class="fu">unique</span>(edges_tbl<span class="sc">$</span>type)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(unique_edge_types)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "InterpolatesFrom"   "RecordedBy"         "PerformerOf"       
  [4] "ComposerOf"         "ProducerOf"         "InStyleOf"         
  [7] "LyricalReferenceTo" "CoverOf"            "DistributedBy"     
 [10] "MemberOf"           "LyricistOf"         "DirectlySamples"   </code></pre>
 </div>
-</div>
-</section>
-<section id="get-sailor-shifts-node-id" class="level3">
-<h3 class="anchored" data-anchor-id="get-sailor-shifts-node-id">Get Sailor Shift’s node ID</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sailor_id <span class="ot">&lt;-</span> nodes_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Sailor Shift"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="try-multiple-influence-related-edge-types" class="level3">
-<h3 class="anchored" data-anchor-id="try-multiple-influence-related-edge-types">Try multiple influence-related edge types</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>influence_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"InterpolatesFrom"</span>, <span class="st">"RecordedBy"</span>, <span class="st">"PerformerOfComposerOf"</span>, <span class="st">"ProducerOf"</span>,<span class="st">"InStyleOf"</span>, <span class="st">"LyricalReferenceTo"</span> ,<span class="st">"CoverOf"</span>,<span class="st">"DistributedBy"</span>,<span class="st">"MemberOf"</span>, <span class="st">"LyricistOf"</span>, <span class="st">"DirectlySamples"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related" class="level3">
-<h3 class="anchored" data-anchor-id="find-all-edges-where-sailor-is-the-target-and-the-edge-is-influence-related">Find all edges where Sailor is the target and the edge is influence-related</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sailor_influences <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">%in%</span> influence_types, target <span class="sc">==</span> sailor_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers" class="level3">
-<h3 class="anchored" data-anchor-id="join-with-nodes_tbl-to-get-details-of-source-nodes-the-influencers">Join with nodes_tbl to get details of source nodes (the influencers)</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>influencers_tbl <span class="ot">&lt;-</span> sailor_influences <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Node Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Person"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, genre, notable, <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>, <span class="fu">everything</span>())</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># View the result</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(influencers_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Sailor Shift's node ID</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sailor_id <span class="ot">&lt;-</span> nodes_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Sailor Shift"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Try multiple influence-related edge types</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>influence_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"InterpolatesFrom"</span>, <span class="st">"RecordedBy"</span>, <span class="st">"PerformerOfComposerOf"</span>, <span class="st">"ProducerOf"</span>,<span class="st">"InStyleOf"</span>, <span class="st">"LyricalReferenceTo"</span> ,<span class="st">"CoverOf"</span>,<span class="st">"DistributedBy"</span>,<span class="st">"MemberOf"</span>, <span class="st">"LyricistOf"</span>, <span class="st">"DirectlySamples"</span> )</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all edges where Sailor is the target and the edge is influence-related</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>sailor_influences <span class="ot">&lt;-</span> edges_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">%in%</span> influence_types, target <span class="sc">==</span> sailor_id)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Join with nodes_tbl to get details of source nodes (the influencers)</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>influencers_tbl <span class="ot">&lt;-</span> sailor_influences <span class="sc">%&gt;%</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Node Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Person"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, genre, notable, <span class="st">`</span><span class="at">Node Type</span><span class="st">`</span>, <span class="fu">everything</span>())</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># View the result</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(influencers_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -463,6 +450,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+</section>
+<section id="second-approach-visual" class="level2">
+<h2 class="anchored" data-anchor-id="second-approach-visual">Second approach: Visual</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
