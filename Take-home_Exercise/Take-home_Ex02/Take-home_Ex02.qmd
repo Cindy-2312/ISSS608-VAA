@@ -3,50 +3,87 @@ title: "Take-home Exercise 02"
 author: "Cindy TA"
 format: html
 ---
+
 # The Task
+
 In this take-home exercise, Mini-challenge 1 from VAST challenge was chosen. In this Mini-Challenge 1, we are provided a knowledge graph of containing recording artists, albums, collaborations, concerts, influences, and more. The goal will be to develop visual analytics approaches to trace the rise of one artist and predict who will be next to break out.
 
 # 1. Getting Started
 
 ## 1.1. Loading R packages
 
-In this take-home exercise, the 4 packages below will be used:
+In this take-home exercise, the below packages below will be used:
+
+-   *tidyverse* - Core collection of R packages designed for data science
+
+-   *jsonlite* - Tools to read, write, and parse JSON data in R.
+
+-   *dplyr* - A grammar of data manipulation with intuitive verbs like filter() and mutate().
+
+-   *tidygraph* - Tidy tools for graph data, enabling dplyr-style manipulation of networks.
+
+-   *ggraph* - A ggplot2 extension for visualizing network graphs.
+
+-   *knitr* - Converts R code and markdown into dynamic, reproducible reports.
+
+-   *igraph* - A comprehensive package for network analysis and graph algorithms.
+
+-   *visNetwork -* Creates interactive network visualizations using vis.js in R.
+
+::: panel-tabset
+### The Code
 
 ```{r}
 pacman::p_load(tidyverse, jsonlite, dplyr,
                tidygraph, ggraph, knitr, igraph, visNetwork)
 ```
+:::
 
 ## 1.2. Importing knowledge graph data
 
 For the purpose of this exercise, MC1_graph.json file will be used. In the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object
 
+::: panel-tabset
+### The Code
+
 ```{r}
 kg <- fromJSON("C:/Cindy-2312/ISSS608-VAA/Take-home_Exercise/MC1_release/MC1_graph.json")
 ```
+:::
 
 ## 1.3. Extracting the edges and nodes table
 
 Next, as_tibble() of tibble package package is used to extract the nodes and links tibble data frames from kg object into two separate tibble data frames called nodes_tbl and edges_tbl respectively.
 
+::: panel-tabset
+### The Code
+
 ```{r}
 nodes_tbl <- as_tibble(kg$nodes) 
 edges_tbl <- as_tibble(kg$links)
 ```
+:::
 
 ## 1.4. Mapping from node id to row index
 
 Before we can go ahead to build the tidygraph object, it is important for us to ensure each id from the node list is mapped to the correct row number. This requirement can be achieved by using the code chunk below.
+
+::: panel-tabset
+### The Code
 
 ```{r}
 id_map <- tibble(id = nodes_tbl$id,
                  index = seq_len(
                    nrow(nodes_tbl)))
 ```
+:::
 
 ## 1.5. Map source and target IDs to row indices
 
 Next, we will map the source and the target IDs to row indices by using the code chunk below.
+
+::: panel-tabset
+### The Code
 
 ```{r}
 edges_tbl <- edges_tbl %>%
@@ -55,15 +92,23 @@ edges_tbl <- edges_tbl %>%
   left_join(id_map, by = c("target" = "id")) %>%
   rename(to = index)
 ```
+:::
 
 ## 1.6. Filter out any unmatched (invalid) edges
+
+::: panel-tabset
+### The Code
 
 ```{r}
 edges_tbl <- edges_tbl %>%
   filter(!is.na(from), !is.na(to))
 ```
+:::
 
 ## 1.7. Creating tidygraph()
+
+::: panel-tabset
+### The Code
 
 ```{r}
 graph <- tbl_graph(nodes = nodes_tbl, 
@@ -71,10 +116,42 @@ graph <- tbl_graph(nodes = nodes_tbl,
                    directed = kg$directed)
 class(graph)
 ```
+:::
 
 # Question 1: Who has Sailor Shift been most influenced by over time?
 
 ## First approach: Static summary
+
+::: panel-tabset
+### The Plot
+
+```{r}
+
+# Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)
+unique_edge_types <- unique(edges_tbl$`Edhe Type`)
+print(unique_edge_types)
+
+# Get Sailor Shift's node ID
+sailor_id <- filter(nodes_tbl, name == "Sailor Shift")$id
+
+# Try multiple influence-related edge types
+influence_types <- c("InterpolatesFrom", "RecordedBy", "PerformerOfComposerOf", "ProducerOf","InStyleOf", "LyricalReferenceTo" ,"CoverOf","DistributedBy","MemberOf", "LyricistOf", "DirectlySamples" )
+
+# Find all edges where Sailor is the target and the edge is influence-related
+sailor_influences <- edges_tbl %>%
+  filter(`Edge Type` %in% influence_types, target == sailor_id)
+
+# Join with nodes_tbl to get details of source nodes (the influencers)
+influencers_tbl <- sailor_influences %>%
+  left_join(nodes_tbl, by = c("source" = "id")) %>%
+  filter(`Node Type` == "Person") %>%
+  select(name, genre, notable, `Node Type`, everything())
+kable(influencers_tbl, caption = "List of artists influenced by Sailor Shift")
+```
+:::
+
+::: panel-tabset
+### The Code
 
 ```{r}
 # Standardize column names
@@ -86,9 +163,7 @@ unique_edge_types <- unique(edges_tbl$type)
 print(unique_edge_types)
 
 # Get Sailor Shift's node ID
-sailor_id <- nodes_tbl %>%
-  filter(name == "Sailor Shift") %>%
-  pull(id)
+sailor_id <- filter(nodes_tbl, name == "Sailor Shift")$id
 
 # Try multiple influence-related edge types
 influence_types <- c("InterpolatesFrom", "RecordedBy", "PerformerOfComposerOf", "ProducerOf","InStyleOf", "LyricalReferenceTo" ,"CoverOf","DistributedBy","MemberOf", "LyricistOf", "DirectlySamples" )
@@ -102,14 +177,8 @@ influencers_tbl <- sailor_influences %>%
   left_join(nodes_tbl, by = c("source" = "id")) %>%
   filter(`Node Type` == "Person") %>%
   select(name, genre, notable, `Node Type`, everything())
-
-# View the result
-kable(influencers_tbl)
 ```
-
-## Second approach: Visual
-
-
+:::
 
 ::: callout-note
 ## Conclusion for Question 1
@@ -119,4 +188,137 @@ Sailor Shift’s musical style has been shaped by multiple artists, most notably
 
 # Question 2: Who has she collaborated with and directly or indirectly influenced?
 
+## Find direct collaborators
+
+::: panel-tabset
+### The Table
+
+```{r}
+collab_roles <- c("PerformerOf","ComposerOf","LyricistOf","ProducerOf")
+
+# Standardize column names
+ edges_tbl <- edges_tbl %>%
+  rename(`Edge Type` = type)
+
+# 1. All works Sailor contributes to …
+works <- graph %>% 
+  activate(edges) %>% 
+  filter(source == sailor_id & `Edge Type` %in% collab_roles) %>% 
+  pull(target)
+
+# 2. … everyone else credited on those works
+# ── 1. collect the unique artist-IDs that appear as SOURCE on Sailor’s works ──
+collab_ids <- graph %>% 
+  activate(edges) %>% 
+  filter(target %in% works,
+         `Edge Type` %in% collab_roles,     # or `Edge Type` if you did not rename
+         source != sailor_id) %>% 
+  pull(source) %>%                       # get the numeric IDs
+  unique()
+
+# ── 2. look those IDs up in the node table ──
+collaborators <- graph %>% 
+  activate(nodes) %>% 
+  as_tibble() %>%                       # convert to a plain tibble for clarity
+  filter(id %in% collab_ids) %>% 
+  select(name, id)
+print(collaborators)
+```
+:::
+
+::: panel-tabset
+### The Code
+
+```{r}
+collab_roles <- c("PerformerOf","ComposerOf","LyricistOf","ProducerOf")
+
+# 1. All works Sailor contributes to …
+works <- graph %>% 
+  activate(edges) %>% 
+  filter(source == sailor_id & `Edge Type` %in% collab_roles) %>% 
+  pull(target)
+
+# 2. … everyone else credited on those works
+# ── 1. collect the unique artist-IDs that appear as SOURCE on Sailor’s works ──
+collab_ids <- graph %>% 
+  activate(edges) %>% 
+  filter(target %in% works,
+         `Edge Type` %in% collab_roles,     # or `Edge Type` if you did not rename
+         source != sailor_id) %>% 
+  pull(source) %>%                       # get the numeric IDs
+  unique()
+
+# ── 2. look those IDs up in the node table ──
+collaborators <- graph %>% 
+  activate(nodes) %>% 
+  as_tibble() %>%                       # convert to a plain tibble for clarity
+  filter(id %in% collab_ids) %>% 
+  select(name, id)
+
+print(collaborators)
+```
+:::
+
+## Find who influenced Sailor and who Sailor influences
+
+```{r}
+# edge labels we care about
+infl_edges <- c("InStyleOf","LyricalReferenceTo",
+                "InterpolatesFrom","DirectlySamples","CoverOf")
+
+# every influence edge that touches Sailor OR Ivy-Echos
+infl_tbl <- graph %>% 
+  activate(edges) %>% 
+  filter(`Edge Type` %in% infl_edges,
+         source == sailor_id | target == sailor_id |
+         source == nodes_tbl$id[nodes_tbl$name == "Ivy Echos"] |
+         target == nodes_tbl$id[nodes_tbl$name == "Ivy Echos"]) %>% 
+  as_tibble()
+
+# unique partner artists on those edges
+partner_ids <- c(infl_tbl$source, infl_tbl$target) %>% unique()
+
+# 4️⃣ restrict to Person / Group so songs & labels vanish
+artist_ids <- nodes_tbl %>% 
+  filter(id %in% partner_ids,
+         `Node Type` %in% c("Person","MusicalGroup")) %>% 
+  pull(id)
+
+```
+
+```{r}
+infl_graph <- graph %>% 
+  activate(nodes) %>% 
+  filter(id %in% artist_ids) %>%              # keep Sailor + partner artists
+  activate(edges) %>% 
+  filter(`Edge Type` %in% infl_edges,         # keep only influence links
+         source %in% artist_ids,
+         target %in% artist_ids)
+```
+
+```{r}
+infl_graph <- infl_graph %>%                 
+  activate(nodes) %>%                        
+  mutate(role = ifelse(id == sailor_id,      
+                       "Sailor", "Partner"))
+
+
+ggraph(infl_graph, layout = "fr") +
+  geom_edge_link(aes(label = `Edge Type`),
+                 arrow = arrow(length = unit(3,"pt"), type = "closed"),
+                 label_size = 2.5, angle_calc = "along",
+                 show.legend = FALSE, alpha = .8) +
+  geom_node_point(aes(fill = role), shape = 21, size = 6,
+                  colour = "black") +
+  scale_fill_manual(values = c(Sailor = "tomato", Partner = "gold")) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3.2) +
+  guides(fill = "none") +
+  theme_void()
+
+```
+
+::::
+
 # Question 3: How has she influenced collaborators and the Oceanus Folk community?
+
+
