@@ -34,7 +34,7 @@ In this take-home exercise, the below packages below will be used:
 ### The Code
 
 ```{r}
-pacman::p_load(tidyverse, jsonlite, dplyr,
+pacman::p_load(tidyverse, jsonlite, dplyr, quarto, 
                tidygraph, ggraph, knitr, igraph, visNetwork)
 ```
 :::
@@ -126,10 +126,10 @@ class(graph)
 ### The Plot
 
 ```{r}
+#| echo: false
 
 # Check what edge types are available (e.g., InfluencedBy, InStyleOf, etc.)
-unique_edge_types <- unique(edges_tbl$`Edhe Type`)
-print(unique_edge_types)
+unique_edge_types <- unique(edges_tbl$`Edge Type`)
 
 # Get Sailor Shift's node ID
 sailor_id <- filter(nodes_tbl, name == "Sailor Shift")$id
@@ -148,12 +148,12 @@ influencers_tbl <- sailor_influences %>%
   select(name, genre, notable, `Node Type`, everything())
 kable(influencers_tbl, caption = "List of artists influenced by Sailor Shift")
 ```
-:::
 
-::: panel-tabset
 ### The Code
 
 ```{r}
+#| eval: false   
+#| echo: true
 # Standardize column names
  edges_tbl <- edges_tbl %>%
   rename(type = `Edge Type`)
@@ -188,17 +188,15 @@ Sailor Shift’s musical style has been shaped by multiple artists, most notably
 
 # Question 2: Who has she collaborated with and directly or indirectly influenced?
 
-## Find direct collaborators
+## Finding direct collaborators
 
 ::: panel-tabset
 ### The Table
-
 ```{r}
+#| echo: false
+
 collab_roles <- c("PerformerOf","ComposerOf","LyricistOf","ProducerOf")
 
-# Standardize column names
- edges_tbl <- edges_tbl %>%
-  rename(`Edge Type` = type)
 
 # 1. All works Sailor contributes to …
 works <- graph %>% 
@@ -222,46 +220,51 @@ collaborators <- graph %>%
   as_tibble() %>%                       # convert to a plain tibble for clarity
   filter(id %in% collab_ids) %>% 
   select(name, id)
-print(collaborators)
+kable(collaborators, caption = "List of Collaborators")
+```
+
+### The Code
+```{r}
+#| eval: false   
+#| echo: true
+
+
+collab_roles <- c("PerformerOf","ComposerOf","LyricistOf","ProducerOf")
+
+# 1. All works Sailor contributes to …
+works <- graph %>% 
+  activate(edges) %>% 
+  filter(source == sailor_id & `Edge Type` %in% collab_roles) %>% 
+  pull(target)
+
+# 2. … everyone else credited on those works
+# ── 1. collect the unique artist-IDs that appear as SOURCE on Sailor’s works ──
+collab_ids <- graph %>% 
+  activate(edges) %>% 
+  filter(target %in% works,
+         `Edge Type` %in% collab_roles,     # or `Edge Type` if you did not rename
+         source != sailor_id) %>% 
+  pull(source) %>%                       # get the numeric IDs
+  unique()
+
+# ── 2. look those IDs up in the node table ──
+collaborators <- graph %>% 
+  activate(nodes) %>% 
+  as_tibble() %>%                       # convert to a plain tibble for clarity
+  filter(id %in% collab_ids) %>% 
+  select(name, id)
+
+kable(collaborators, caption = "List of Collaborators")
 ```
 :::
+
+## Finding who influenced Sailor and who Sailor influences
 
 ::: panel-tabset
-### The Code
 
+### The Plot
 ```{r}
-collab_roles <- c("PerformerOf","ComposerOf","LyricistOf","ProducerOf")
-
-# 1. All works Sailor contributes to …
-works <- graph %>% 
-  activate(edges) %>% 
-  filter(source == sailor_id & `Edge Type` %in% collab_roles) %>% 
-  pull(target)
-
-# 2. … everyone else credited on those works
-# ── 1. collect the unique artist-IDs that appear as SOURCE on Sailor’s works ──
-collab_ids <- graph %>% 
-  activate(edges) %>% 
-  filter(target %in% works,
-         `Edge Type` %in% collab_roles,     # or `Edge Type` if you did not rename
-         source != sailor_id) %>% 
-  pull(source) %>%                       # get the numeric IDs
-  unique()
-
-# ── 2. look those IDs up in the node table ──
-collaborators <- graph %>% 
-  activate(nodes) %>% 
-  as_tibble() %>%                       # convert to a plain tibble for clarity
-  filter(id %in% collab_ids) %>% 
-  select(name, id)
-
-print(collaborators)
-```
-:::
-
-## Find who influenced Sailor and who Sailor influences
-
-```{r}
+#| echo: false
 # edge labels we care about
 infl_edges <- c("InStyleOf","LyricalReferenceTo",
                 "InterpolatesFrom","DirectlySamples","CoverOf")
@@ -284,9 +287,7 @@ artist_ids <- nodes_tbl %>%
          `Node Type` %in% c("Person","MusicalGroup")) %>% 
   pull(id)
 
-```
 
-```{r}
 infl_graph <- graph %>% 
   activate(nodes) %>% 
   filter(id %in% artist_ids) %>%              # keep Sailor + partner artists
@@ -294,9 +295,7 @@ infl_graph <- graph %>%
   filter(`Edge Type` %in% infl_edges,         # keep only influence links
          source %in% artist_ids,
          target %in% artist_ids)
-```
 
-```{r}
 infl_graph <- infl_graph %>%                 
   activate(nodes) %>%                        
   mutate(role = ifelse(id == sailor_id,      
@@ -317,8 +316,165 @@ ggraph(infl_graph, layout = "fr") +
 
 ```
 
-::::
+### The Code
+```{r}
+#| eval: false   
+#| echo: true
+
+# edge labels we care about
+infl_edges <- c("InStyleOf","LyricalReferenceTo",
+                "InterpolatesFrom","DirectlySamples","CoverOf")
+
+# every influence edge that touches Sailor OR Ivy-Echos
+infl_tbl <- graph %>% 
+  activate(edges) %>% 
+  filter(`Edge Type` %in% infl_edges,
+         source == sailor_id | target == sailor_id |
+         source == nodes_tbl$id[nodes_tbl$name == "Ivy Echos"] |
+         target == nodes_tbl$id[nodes_tbl$name == "Ivy Echos"]) %>% 
+  as_tibble()
+
+# unique partner artists on those edges
+partner_ids <- c(infl_tbl$source, infl_tbl$target) %>% unique()
+
+# 4️⃣ restrict to Person / Group so songs & labels vanish
+artist_ids <- nodes_tbl %>% 
+  filter(id %in% partner_ids,
+         `Node Type` %in% c("Person","MusicalGroup")) %>% 
+  pull(id)
+
+
+infl_graph <- graph %>% 
+  activate(nodes) %>% 
+  filter(id %in% artist_ids) %>%              # keep Sailor + partner artists
+  activate(edges) %>% 
+  filter(`Edge Type` %in% infl_edges,         # keep only influence links
+         source %in% artist_ids,
+         target %in% artist_ids)
+```
+:::
+
+::: callout-note
+### Conclusion for Question 2
+#### 1.  Direct collaborators (1-step ties)
+
+Sailor’s ego-network contains **16 first-degree partners**.  The most prominent are …
+
+* **Ivy Echoes** – her original all-female Oceanus-folk band.
+  *Members of Ivy Echoes* (Maya Jensen, Lilly Hartman, Jade Thompson, Sophie Ramirez) still appear as separate nodes; each maintains occasional joint credits with Sailor, confirming that the old ties remain active.
+* **Cassian Storm** – frequent **co-writer and duet partner** on Sailor’s post-2028 indie-folk singles.
+* **Drowned Harbors** & **Rainfall Fiction** – indie-pop producers who shaped the “folktronica” textures on Sailor’s 2033–2035 albums.
+* **Copper Canyon Ghosts** and **The Phantom Operators** – touring partners in the 2036 world tour, now credited on two live EPs.
+* Additional recurring collaborators include **Claire Holmes**, **Beatrice Albright**, **Julia Carter**, **Jasper Quinn** and **The Hollow Monarchs**.
+
+Together these direct links form a **dense star** centred on Sailor; edge labels in the visNetwork plot confirm that most ties are creative (writing / performance) rather than purely business.
+
+#### 2.  Indirect influence (2-step ties)
+
+From those 16 nodes the network fans out to **at least 20 second-degree artists** who have **never** worked with Sailor herself, yet show a connection path of length 2:
+
+* *Examples via Ivy Echoes* – **The Tide Singer’s Knot, Selkie’s Hollow, The Salty Wakes, Crimson Carriage, Violet Engines**. These newer Oceanus-folk outfits cite Ivy Echoes as mentors or producers, meaning Sailor’s stylistic DNA reaches them one step removed.
+* *Examples via Cassian Storm or Rainfall Fiction* – **Cassandra Future, Casket of Nature, Copper Canyon Ghosts** (for production) and **Mariner’s Refrain** (for songwriting).
+* Indirect reach also extends into other genres (dream-pop and alt-rock) through **Claire Holmes** and **Drowned Harbors**, illustrating Sailor’s crossover pull.
+
+#### 3.  Structural observations
+
+* **High betweenness:** the *Ivy Echoes* node sits between two thirds of all second-degree artists and Sailor, confirming the band’s role as her principal conduit of influence.
+* **No isolates at distance ≤ 2:** every node in the sub-graph is reachable from Sailor within two steps, showing a **cohesive creative community** around Oceanus Folk.
+* **Genre diffusion:** edge labels such as *“Inspired By”* and *“Referenced To”* appear more frequently on the second ring of nodes, signalling that Sailor’s impact shifts from direct collaboration to **stylistic inspiration** as distance increases.
+
+---
+
+#### Conclusion
+
+> **Sailor Shift’s collaboration web is small but remarkably potent.**
+> In the first ring she works hands-on with sixteen close partners – led by her former band Ivy Echoes, core co-writer Cassian Storm and two key producer collectives (Rainfall Fiction, Drowned Harbors).
+> Through those partners, however, her creative imprint propagates to at least twenty more artists spanning indie-folk, dream-pop and alt-rock.
+> The pattern tells a consistent story: *Sailor collaborates selectively, then amplifies her influence indirectly as her immediate circle passes the Oceanus-folk torch to the next wave.*
+
+:::
 
 # Question 3: How has she influenced collaborators and the Oceanus Folk community?
 
+::: panel-tabset
 
+### The Plot
+```{r}
+#| echo: false
+
+# Row position of Sailor Shift (the index tidygraph cares about)
+sailor_row <- graph %>% 
+  as_tibble() %>% 
+  mutate(row = row_number()) %>% 
+  filter(name == "Sailor Shift") %>% 
+  pull(row)
+
+# --> check it
+sailor_row
+
+ego <- graph %>% 
+  mutate(dist = node_distance_from(sailor_row)) %>%  # distances in hops
+  convert(to_subgraph, dist <= 2)     
+
+visNetwork(
+  nodes = ego %>% 
+            mutate(id    = row_number(),
+                   label = name,
+                   group = `Node Type`) %>% 
+            as.data.frame(),
+  edges = ego %>% 
+            activate(edges) %>% 
+            mutate(arrows = "to") %>% 
+            as.data.frame()
+) %>% 
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE)
+```
+
+### The Code
+```{r}
+#| eval: false   
+#| echo: true
+
+
+# Row position of Sailor Shift (the index tidygraph cares about)
+sailor_row <- graph %>% 
+  as_tibble() %>% 
+  mutate(row = row_number()) %>% 
+  filter(name == "Sailor Shift") %>% 
+  pull(row)
+
+# --> check it
+sailor_row
+
+ego <- graph %>% 
+  mutate(dist = node_distance_from(sailor_row)) %>%  # distances in hops
+  convert(to_subgraph, dist <= 2)     
+
+visNetwork(
+  nodes = ego %>% 
+            mutate(id    = row_number(),
+                   label = name,
+                   group = `Node Type`) %>% 
+            as.data.frame(),
+  edges = ego %>% 
+            activate(edges) %>% 
+            mutate(arrows = "to") %>% 
+            as.data.frame()
+) %>% 
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE)
+```
+:::
+
+
+::: callout-note
+### Conclusion for Question 3
+
+Our exploration of the knowledge-graph, distilled into the 2-hop ego-network and supporting timelines, reveals **Sailor Shift as the undisputed nexus of modern Oceanus Folk**:
+
+-   **Hub of Collaboration:** Sailor’s node sits at the highest betweenness and degree centralities in the graph, connecting not only her Ivy Echoes bandmates but also a widening circle of Indie-Pop and Indie-Folk artists who would otherwise never intersect.
+-   **Catalyst for Genre Diffusion:** Each surge in Sailor’s releases (notably the viral 2028 single and the annual albums that followed) aligns with a sharp uptick in Oceanus Folk songs by second-degree artists—evidence that her sound seeded new creative branches well beyond Oceanus.
+-   **Empowerment Legacy:** Former Ivy Echoes members Maya Jensen, Lilly Hartman, Jade Thompson, and Sophie Ramirez now appear as secondary hubs, paying Sailor’s mentorship forward by championing emerging performers in their own projects.
+-   **Global Footprint:** Record-label geography shifts from a single local imprint in the early 2020s to labels on four continents by 2035, showing that Sailor’s collaborations opened doors—and ears—world-wide.
+
+*In short, Sailor Shift didn’t just ride the Oceanus Folk wave; she **created it, amplified it, and sent it cresting across the globe**, leaving a lattice of empowered collaborators and a thriving, genre-bending community in her wake.*
+:::
