@@ -308,7 +308,7 @@ boxmap <- function(vnam, df,
   tm_shape(df) +
      tm_fill(vnam,title=legtitle,
              breaks=bb,
-             palette="Blues",
+             palette="brewer.blues",
           labels = c("lower outlier", 
                      "< 25%", 
                      "25% - 50%", 

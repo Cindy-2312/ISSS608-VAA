@@ -8,7 +8,7 @@
 
 <meta name="author" content="Cindy TA">
 
-<title>Hands-on Exẻcise 8C - Analytical Mapping – ISSS608-VAA</title>
+<title>Hands-on Exercise 8C - Analytical Mapping – ISSS608-VAA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -178,6 +178,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8B.html">
  <span class="dropdown-text">Hands-on Exercise 8B</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8C.html">
+ <span class="dropdown-text">Hands-on Exercise 8C</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -278,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Hands-on Exẻcise 8C - Analytical Mapping</h1>
+<h1 class="title">Hands-on Exercise 8C - Analytical Mapping</h1>
 </div>
 
 
@@ -653,7 +657,7 @@ Multiple palettes called "blues" found: "brewer.blues", "matplotlib.blues". The 
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(df) <span class="sc">+</span></span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tm_fill</span>(vnam,<span class="at">title=</span>legtitle,</span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">breaks=</span>bb,</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">palette=</span><span class="st">"Blues"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">palette=</span><span class="st">"brewer.blues"</span>,</span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"lower outlier"</span>, </span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"&lt; 25%"</span>, </span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"25% - 50%"</span>, </span>
@@ -678,9 +682,7 @@ Multiple palettes called "blues" found: "brewer.blues", "matplotlib.blues". The 
 [v3-&gt;v4] `tm_tm_fill()`: migrate the argument(s) related to the scale of the
 visual variable `fill` namely 'breaks', 'palette' (rename to 'values'),
 'labels' to fill.scale = tm_scale(&lt;HERE&gt;).[v3-&gt;v4] `tm_fill()`: migrate the argument(s) related to the legend of the
-visual variable `fill` namely 'title' to 'fill.legend = tm_legend(&lt;HERE&gt;)'[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(main.title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run
-`cols4all::c4a_gui()` to explore them. The old palette name "Blues" is named
-"brewer.blues"Multiple palettes called "blues" found: "brewer.blues", "matplotlib.blues". The first one, "brewer.blues", is returned.</code></pre>
+visual variable `fill` namely 'title' to 'fill.legend = tm_legend(&lt;HERE&gt;)'[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(main.title = )`</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
