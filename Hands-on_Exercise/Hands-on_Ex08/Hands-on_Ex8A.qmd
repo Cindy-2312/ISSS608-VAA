@@ -205,7 +205,7 @@ Things to learn from *tm_polygons()*:
 
 -   By default, Missing value will be shaded in grey.
 
-### 8.4.2.3.  Drawing a choropleth map using *tm_fill()* and \*tm_border()\*\*
+### 8.4.2.3. Drawing a choropleth map using *tm_fill()* and \*tm_border()\*\*
 
 Actually, *tm_polygons()* is a wraper of *tm_fill()* and *tm_border()*. *tm_fill()* shades the polygons by using the default colour scheme and *tm_borders()* adds the borders of the shapefile onto the choropleth map.
 
