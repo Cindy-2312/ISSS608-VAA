@@ -6,10 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Cindy Ta">
-<meta name="dcterms.date" content="2025-04-12">
+<meta name="author" content="Cindy TA">
 
-<title>ISSS608-VAA</title>
+<title>Take-home Exercise 3 - Prototyping Modules for Visual Analytics Shiny Application – ISSS608-VAA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,23 +24,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-985aa47af68dae11cd4d235c71fb941e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cc63fce9873912f1bbbccf05079cc9ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-985aa47af68dae11cd4d235c71fb941e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-cc63fce9873912f1bbbccf05079cc9ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -81,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">ISSS608-VAA</span>
     </a>
   </div>
@@ -97,55 +96,55 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex01/Hands-on_Ex01.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex01/Hands-on_Ex01.html">
  <span class="dropdown-text">Hands-on Exercise 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex02/Hands-on_Ex02.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex02/Hands-on_Ex02.html">
  <span class="dropdown-text">Hands-on Exercise 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex03/Hands-on_Ex03A.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex03/Hands-on_Ex03A.html">
  <span class="dropdown-text">Hands-on Exercise 3A</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex03/Hands-on_Ex03B.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex03/Hands-on_Ex03B.html">
  <span class="dropdown-text">Hands-on Exercise 3B</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04A.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04A.html">
  <span class="dropdown-text">Hands-on Exercise 4A</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04B.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04B.html">
  <span class="dropdown-text">Hands-on Exercise 4B</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04C.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04C.html">
  <span class="dropdown-text">Hands-on Exercise 4C</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04D.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex04/Hands-on_Ex04D.html">
  <span class="dropdown-text">Hands-on Exercise 4D</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex05/Hands-on_Ex05.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex05/Hands-on_Ex05.html">
  <span class="dropdown-text">Hands-on Exercise 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex06/Hands-on_Ex06.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex06/Hands-on_Ex06.html">
  <span class="dropdown-text">Hands-on Exercise 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8A.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8A.html">
  <span class="dropdown-text">Hands-on Exercise 8A</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8B.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8B.html">
  <span class="dropdown-text">Hands-on Exercise 8B</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8C.html">
+    <a class="dropdown-item" href="../../Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8C.html">
  <span class="dropdown-text">Hands-on Exercise 8C</span></a>
   </li>  
     </ul>
@@ -156,19 +155,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
         <li>
-    <a class="dropdown-item" href="./Take-home_Exercise/Take-home_Ex01/Take-home_Ex01A.html">
+    <a class="dropdown-item" href="../../Take-home_Exercise/Take-home_Ex01/Take-home_Ex01A.html">
  <span class="dropdown-text">Take-home Exercise 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Take-home_Exercise/Take-home_Ex02/Take-home_Ex02.html">
+    <a class="dropdown-item" href="../../Take-home_Exercise/Take-home_Ex02/Take-home_Ex02.html">
  <span class="dropdown-text">Take-home Exercise 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Take-home_Exercise/Take-home_Ex02/Take-home_Ex03.html">
- <span class="dropdown-text">Take-home Exercise 2</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./Take-home_Exercise/Take-home_Ex02/Take-home_Ex02-DataPrep.html">
+    <a class="dropdown-item" href="../../Take-home_Exercise/Take-home_Ex02/Take-home_Ex02-DataPrep.html">
  <span class="dropdown-text">Take-home Exercise 2 - Data Prep</span></a>
   </li>  
     </ul>
@@ -184,11 +179,11 @@ ul.task-list li input[type="checkbox"] {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -202,15 +197,40 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-task" id="toc-the-task" class="nav-link active" data-scroll-target="#the-task">1. The Task</a></li>
+  <li><a href="#tracing-the-ripple-of-oceanus-folk-storyboard" id="toc-tracing-the-ripple-of-oceanus-folk-storyboard" class="nav-link" data-scroll-target="#tracing-the-ripple-of-oceanus-folk-storyboard">2. Tracing the Ripple of Oceanus Folk – Storyboard</a>
+  <ul class="collapse">
+  <li><a href="#section-1-career-collaboration-overview" id="toc-section-1-career-collaboration-overview" class="nav-link" data-scroll-target="#section-1-career-collaboration-overview">Section 1: Career &amp; Collaboration Overview</a>
+  <ul class="collapse">
+  <li><a href="#a.-overview" id="toc-a.-overview" class="nav-link" data-scroll-target="#a.-overview">1-A. Overview</a></li>
+  <li><a href="#b.-collaboration-timeline" id="toc-b.-collaboration-timeline" class="nav-link" data-scroll-target="#b.-collaboration-timeline">1-B. Collaboration Timeline</a></li>
+  </ul></li>
+  <li><a href="#section-2-influence-genre-diffusion" id="toc-section-2-influence-genre-diffusion" class="nav-link" data-scroll-target="#section-2-influence-genre-diffusion">Section 2: Influence &amp; Genre Diffusion</a>
+  <ul class="collapse">
+  <li><a href="#a.-influence-flow-map---how-has-oceanus-folk-influence-spread" id="toc-a.-influence-flow-map---how-has-oceanus-folk-influence-spread" class="nav-link" data-scroll-target="#a.-influence-flow-map---how-has-oceanus-folk-influence-spread">2-A. Influence Flow Map - “How has Oceanus Folk influence spread?”</a></li>
+  <li><a href="#b.-genre-heatmap" id="toc-b.-genre-heatmap" class="nav-link" data-scroll-target="#b.-genre-heatmap">2-B. Genre Heatmap</a></li>
+  <li><a href="#c.-indirect-influence-map" id="toc-c.-indirect-influence-map" class="nav-link" data-scroll-target="#c.-indirect-influence-map">2-C. Indirect Influence Map</a></li>
+  </ul></li>
+  <li><a href="#section-3-rising-star-profiling-forecast" id="toc-section-3-rising-star-profiling-forecast" class="nav-link" data-scroll-target="#section-3-rising-star-profiling-forecast">Section 3: Rising-Star Profiling &amp; Forecast</a>
+  <ul class="collapse">
+  <li><a href="#a.-3-artist-comparator" id="toc-a.-3-artist-comparator" class="nav-link" data-scroll-target="#a.-3-artist-comparator">3-A. 3-Artist Comparator</a></li>
+  <li><a href="#b.-next-5-year-prediction" id="toc-b.-next-5-year-prediction" class="nav-link" data-scroll-target="#b.-next-5-year-prediction">3-B. Next 5 Year Prediction</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ISSS608-VAA</h1>
+<h1 class="title">Take-home Exercise 3 - Prototyping Modules for Visual Analytics Shiny Application</h1>
 </div>
 
 
@@ -220,23 +240,11 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Cindy Ta </p>
+             <p>Cindy TA </p>
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 12, 2025</p>
-    </div>
-  </div>
   
-    <div>
-    <div class="quarto-title-meta-heading">Modified</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 10, 2025</p>
-    </div>
-  </div>
     
   </div>
   
@@ -245,18 +253,189 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Hi there! I’m excited to share my learning journey through <strong>ISSS608 Visual Analytics and Applications</strong>.<br>
-Although I don’t come from a strong technical or coding background, I’m passionate about exploring the power of data visualization — and I’m determined to grow along the way.</p>
-<p>This site is a collection of my exercises, projects, and reflections. Each piece reflects not just technical skills, but also my effort to <strong>learn, adapt, and improve</strong>.<br>
-You’ll find:</p>
+<section id="the-task" class="level1">
+<h1>1. The Task</h1>
+<p>In this take-home exercise, you are required to select one of the module of your proposed Shiny application and complete the following tasks:</p>
 <ul>
-<li><p>Hands-on Exercise</p></li>
-<li><p>Take-home Exercise</p></li>
-<li><p>Final project</p></li>
+<li><p>To evaluate and determine the necessary R packages needed for your Shiny application are supported in R CRAN,</p></li>
+<li><p>To prepare and test the specific R codes can be run and returned the correct output as expected,</p></li>
+<li><p>To determine the parameters and outputs that will be exposed on the Shiny applications, and</p></li>
+<li><p>To select the appropriate Shiny UI components for exposing the parameters determine above.</p></li>
 </ul>
-<p>Thank you for visiting. 🌱</p>
+</section>
+<section id="tracing-the-ripple-of-oceanus-folk-storyboard" class="level1">
+<h1>2. Tracing the Ripple of Oceanus Folk – Storyboard</h1>
+<p>Storyboard visually maps out Silas Reed’s exploration of the Oceanus-Folk knowledge graph via an interactive R Shiny dashboard</p>
+<p>The prototype can be broadly classify into three key areas:</p>
+<ul>
+<li><p>Career &amp; Collaboration Overview</p></li>
+<li><p>Influence &amp; Genre Diffusion</p></li>
+<li><p>Rising-Star Profiling &amp; Forecast</p></li>
+</ul>
+<section id="section-1-career-collaboration-overview" class="level2">
+<h2 class="anchored" data-anchor-id="section-1-career-collaboration-overview">Section 1: Career &amp; Collaboration Overview</h2>
+<section id="a.-overview" class="level3">
+<h3 class="anchored" data-anchor-id="a.-overview">1-A. Overview</h3>
+<p>This tab serves as the overall overview for Sailor’s collaboration, in other words, to answer for the question “Who has Sailor collaborated with / influenced?”. Figure below shows the UI interactive features in the&nbsp;<strong>Overview</strong>&nbsp;sub-tab.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>visNetworkOutput for full graph (nodes sized by popularity)<br>
+</li>
+<li>sliderInput (year filter 2020–2040)<br>
+</li>
+<li>selectizeInput (artist search)<br>
+</li>
+<li>checkboxInput (toggle influence edges)</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="b.-collaboration-timeline" class="level3">
+<h3 class="anchored" data-anchor-id="b.-collaboration-timeline">1-B. Collaboration Timeline</h3>
+<p>Show timing of collabs &amp; albums</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>plotlyOutput (stacked timeline bars)<br>
+</li>
+<li>highchartOutput (cumulative popularity line)<br>
+</li>
+<li>radioButtons (metric: albums / songs / collabs)</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="section-2-influence-genre-diffusion" class="level2">
+<h2 class="anchored" data-anchor-id="section-2-influence-genre-diffusion">Section 2: Influence &amp; Genre Diffusion</h2>
+<section id="a.-influence-flow-map---how-has-oceanus-folk-influence-spread" class="level3">
+<h3 class="anchored" data-anchor-id="a.-influence-flow-map---how-has-oceanus-folk-influence-spread">2-A. Influence Flow Map - “How has Oceanus Folk influence spread?”</h3>
+<p><img src="images/take-home-pic1.jpg" class="img-fluid"></p>
+<p>The visualization shows that Oceanus Folk had minimal influence before the year 2000, with only sporadic instances of influenced songs. However, starting in the mid-2000s, there is a noticeable increase in influence, peaking dramatically around 2010 with more than 80 influenced songs in a single year. A second but smaller spike appears around 2017. Following that, the influence seems to decline gradually, with some fluctuations, suggesting that the genre’s impact, while still present, has become more subdued in last years.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sankey or chord diagram (genres as nodes), year slider, palette selector.</p>
+</div>
+</div>
+</section>
+<section id="b.-genre-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="b.-genre-heatmap">2-B. Genre Heatmap</h3>
+<p><img src="images/take-home-pic2.png" class="img-fluid"></p>
+<p>To gain deeper insights into the spread of Oceanus Folk influence, the second chart employs a heatmap that captures the number of influenced songs by genre and release year. Each tile represents a specific genre-year combination, with darker shades indicating a higher count of influenced works. For instance, the most prominent peak occurs in 2010, where Indie Folk saw a significant surge with over 65 songs influenced by Oceanus Folk.</p>
+<p>The chart also reveals that the genre’s influence is intermittent rather than continuous, as evidenced by the scattered and missing tiles across many rows and years. This suggests that Oceanus Folk’s impact varied over time and across genres, affecting some genres intensely in certain years while leaving others untouched.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Heatmap: rows = genres, columns = years; checkboxInput to normalise by total releases.</p>
+</div>
+</div>
+</section>
+<section id="c.-indirect-influence-map" class="level3">
+<h3 class="anchored" data-anchor-id="c.-indirect-influence-map">2-C. Indirect Influence Map</h3>
+<p><img src="images/take-home-pic3.png" class="img-fluid"></p>
+<p>This visualization illustrates an indirect influence path showing how Sailor Shift’s music may have shaped other works within the Oceanus Folk genre through an intermediary. Starting with “Saltwater Hymn”, a song performed by Sailor Shift and categorized under Oceanus Folk, the influence flows to “Parallel Memories”, a Dream Pop song by Tao Wen. This intermediary song then influences two other Oceanus Folk songs: “Grip and Grace” by Jun Xu and “Aquatic Rebirth (1983)” by Donald Medina.</p>
+<p>Although Sailor Shift did not directly influence these two final songs, the network reveals a two-step chain of influence, suggesting that their artistic style or thematic elements may have propagated indirectly through another genre and artist.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>visNetwork with selectInput (# of hops), actionButton (“Trace”).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="section-3-rising-star-profiling-forecast" class="level2">
+<h2 class="anchored" data-anchor-id="section-3-rising-star-profiling-forecast">Section 3: Rising-Star Profiling &amp; Forecast</h2>
+<section id="a.-3-artist-comparator" class="level3">
+<h3 class="anchored" data-anchor-id="a.-3-artist-comparator">3-A. 3-Artist Comparator</h3>
+<p>This tab allows users to select up to <strong>three artists</strong> and compare their careers side-by-side. The dual-axis line chart displays each artist’s <strong>popularity</strong> (solid line) and <strong>influence score</strong> (dashed line) from 2020 to 2040.</p>
+<p>Users can identify breakout trends, sustained growth, or fading influence by observing both metrics over time.</p>
+<p><img src="images/take-home-pic4.png" class="img-fluid"></p>
+<p><img src="images/take-home-pic5.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Dual-axis line chart per artist<br>
+</li>
+<li>selectizeInput (choose 3 artists)<br>
+</li>
+<li>radioButtons (metric: followers / influence-score)</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="b.-next-5-year-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="b.-next-5-year-prediction">3-B. Next 5 Year Prediction</h3>
+<p>This tab allows users to identify <strong>future star artists</strong> by comparing their current popularity and influence. The scatterplot highlights those with both high influence and growing visibility — prime candidates to dominate Oceanus Folk in the next 5 years.</p>
+<p>Hovering over each point reveals the artist name, providing a quick way to discover rising talent.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Scatterplot coming soon – will show artists by popularity vs.&nbsp;influence to forecast future stars.<br>
+</li>
+<li>Top-right quadrant = rising potential.</li>
+</ul>
+</div>
+</div>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

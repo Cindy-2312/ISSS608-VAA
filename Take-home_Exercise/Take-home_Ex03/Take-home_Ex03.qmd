@@ -1,0 +1,116 @@
+---
+title: "Take-home Exercise 3"
+author: "Cindy TA"
+---
+
+# 1. The Task
+
+In this take-home exercise, you are required to select one of the module of your proposed Shiny application and complete the following tasks:
+
+-   To evaluate and determine the necessary R packages needed for your Shiny application are supported in R CRAN,
+
+-   To prepare and test the specific R codes can be run and returned the correct output as expected,
+
+-   To determine the parameters and outputs that will be exposed on the Shiny applications, and
+
+-   To select the appropriate Shiny UI components for exposing the parameters determine above.
+
+# 2. Tracing the Ripple of Oceanus Folk – Storyboard
+
+Storyboard visually maps out Silas Reed’s exploration of the Oceanus-Folk knowledge graph via an interactive R Shiny dashboard
+
+The prototype can be broadly classify into three key areas:
+
+-   Career & Collaboration Overview
+
+-   Influence & Genre Diffusion
+
+-   Rising-Star Profiling & Forecast
+
+## Section 1: Career & Collaboration Overview
+
+### 1-A. Overview
+
+This tab serves as the overall overview for Sailor's collaboration, in other words, to answer for the question “Who has Sailor collaborated with / influenced?". Figure below shows the UI interactive features in the **Overview** sub-tab.
+
+:::{.callout-note}
+-   visNetworkOutput for full graph (nodes sized by popularity)\
+-   sliderInput (year filter 2020–2040)\
+-   selectizeInput (artist search)\
+-   checkboxInput (toggle influence edges)
+:::
+
+### 1-B. Collaboration Timeline
+
+Show timing of collabs & albums
+
+:::{.callout-note}
+-   plotlyOutput (stacked timeline bars)\
+-   highchartOutput (cumulative popularity line)\
+-   radioButtons (metric: albums / songs / collabs)
+:::
+
+## Section 2: Influence & Genre Diffusion
+
+### 2-A. Influence Flow Map - “How has Oceanus Folk influence spread?”
+
+![](images/take-home-pic1.jpg)
+
+The visualization shows that Oceanus Folk had minimal influence before the year 2000, with only sporadic instances of influenced songs. However, starting in the mid-2000s, there is a noticeable increase in influence, peaking dramatically around 2010 with more than 80 influenced songs in a single year. A second but smaller spike appears around 2017. Following that, the influence seems to decline gradually, with some fluctuations, suggesting that the genre’s impact, while still present, has become more subdued in last years.
+
+:::{.callout-note}
+Sankey or chord diagram (genres as nodes), year slider, palette selector.
+:::
+
+### 2-B. Genre Heatmap
+
+![](images/take-home-pic2.png)
+
+To gain deeper insights into the spread of Oceanus Folk influence, the second chart employs a heatmap that captures the number of influenced songs by genre and release year. Each tile represents a specific genre-year combination, with darker shades indicating a higher count of influenced works. For instance, the most prominent peak occurs in 2010, where Indie Folk saw a significant surge with over 65 songs influenced by Oceanus Folk.
+
+The chart also reveals that the genre’s influence is intermittent rather than continuous, as evidenced by the scattered and missing tiles across many rows and years. This suggests that Oceanus Folk’s impact varied over time and across genres, affecting some genres intensely in certain years while leaving others untouched.
+
+:::{.callout-note}
+Heatmap: rows = genres, columns = years; checkboxInput to normalise by total releases.
+:::
+
+### 2-C. Indirect Influence Map
+
+![](images/take-home-pic3.png)
+
+This visualization illustrates an indirect influence path showing how Sailor Shift’s music may have shaped other works within the Oceanus Folk genre through an intermediary. Starting with “Saltwater Hymn”, a song performed by Sailor Shift and categorized under Oceanus Folk, the influence flows to “Parallel Memories”, a Dream Pop song by Tao Wen. This intermediary song then influences two other Oceanus Folk songs: “Grip and Grace” by Jun Xu and “Aquatic Rebirth (1983)” by Donald Medina.
+
+Although Sailor Shift did not directly influence these two final songs, the network reveals a two-step chain of influence, suggesting that their artistic style or thematic elements may have propagated indirectly through another genre and artist.
+
+:::{.callout-note}
+visNetwork with selectInput (# of hops), actionButton (“Trace”).
+:::
+
+## Section 3: Rising-Star Profiling & Forecast
+
+### 3-A. 3-Artist Comparator
+
+This tab allows users to select up to **three artists** and compare their careers side-by-side. The dual-axis line chart displays each artist’s **popularity** (solid line) and **influence score** (dashed line) from 2020 to 2040.
+
+Users can identify breakout trends, sustained growth, or fading influence by observing both metrics over time.
+
+![](images/take-home-pic4.png)
+
+![](images/take-home-pic5.png)
+
+:::{.callout-note}
+-   Dual-axis line chart per artist\
+-   selectizeInput (choose 3 artists)\
+-   radioButtons (metric: followers / influence-score)
+:::
+
+### 3-B. Next 5 Year Prediction
+
+This tab allows users to identify **future star artists** by comparing their current popularity and influence. The scatterplot highlights those with both high influence and growing visibility — prime candidates to dominate Oceanus Folk in the next 5 years.
+
+Hovering over each point reveals the artist name, providing a quick way to discover rising talent.
+
+:::{.callout-note}
+-   Scatterplot coming soon – will show artists by popularity vs. influence to forecast future stars.\
+-   Top-right quadrant = rising potential.
+:::

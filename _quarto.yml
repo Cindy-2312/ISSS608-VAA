@@ -41,6 +41,8 @@ website:
             href: "Take-home_Exercise/Take-home_Ex01/Take-home_Ex01A.html"
           - text: "Take-home Exercise 2"
             href: "Take-home_Exercise/Take-home_Ex02/Take-home_Ex02.html" 
+          - text: "Take-home Exercise 2"
+            href: "Take-home_Exercise/Take-home_Ex02/Take-home_Ex03.html" 
           - text: "Take-home Exercise 2 - Data Prep"
             href: "Take-home_Exercise/Take-home_Ex02/Take-home_Ex02-DataPrep.html"   
             
