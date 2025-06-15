@@ -1,6 +1,8 @@
 ---
-title: "Bla"
+title: "Test"
+format: html
 ---
-::: {.callout-note}
-svdb
+
+::: callout-note
+This is a test note.
 :::
