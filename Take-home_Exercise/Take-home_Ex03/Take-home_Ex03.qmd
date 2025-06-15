@@ -66,7 +66,7 @@ Sankey or chord diagram (genres as nodes), year slider, palette selector.
 
 ![](images/take-home-pic2.png)
 
-To gain deeper insights into the spread of Oceanus Folk influence, the second chart employs a heatmap that captures the number of influenced songs by genre and release year. Each tile represents a specific genre-year combination, with darker shades indicating a higher count of influenced works. For instance, the most prominent peak occurs in 2010, where Indie Folk saw a significant surge with over 65 songs influenced by Oceanus Folk.
+In order to gain deeper insights into the spread of Oceanus Folk influence, the second chart employs a heatmap that captures the number of influenced songs by genre and release year. Each tile represents a specific genre-year combination, with darker shades indicating a higher count of influenced works. For instance, the most prominent peak occurs in 2010, where Indie Folk saw a significant surge with over 65 songs influenced by Oceanus Folk.
 
 The chart also reveals that the genre’s influence is intermittent rather than continuous, as evidenced by the scattered and missing tiles across many rows and years. This suggests that Oceanus Folk’s impact varied over time and across genres, affecting some genres intensely in certain years while leaving others untouched.
 
