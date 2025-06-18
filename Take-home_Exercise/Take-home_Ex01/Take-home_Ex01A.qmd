@@ -80,8 +80,9 @@ ggplot(pyramid_data, aes(x = Age, y = Pop, fill = Sex)) +
   theme_classic()
 ```
 
-:::{.callout-note}
+::: callout-note
 ## Findings for Figure 1
+
 -   The age pyramid shows a broad base narrowing progressively with age, typical of a developed country.
 -   Females dominate the older age brackets (70+), reflecting longer life expectancy.
 -   The working-age population (30–50) appears stable.
@@ -139,8 +140,9 @@ ggplot(plot_data, aes(x = PA, y = Population, fill = Type)) +
 
 ```
 
-:::{.callout-note}
+::: callout-note
 ## Findings for Figure 2
+
 -   Tampines, Bedok, and Sengkang have the largest total populations.
 -   Bedok stands out with \~70,000 elderly residents.
 -   Punggol has a younger demographic despite its size.
@@ -173,8 +175,9 @@ ggplot(elderly_pct_data, aes(x = reorder(PA, ElderlyPct), y = ElderlyPct)) +
   theme_classic()
 ```
 
-:::{.callout-note}
+::: callout-note
 ## Findings for Figure 3
+
 -   Outram, Ang Mo Kio, and Bukit Merah have the highest elderly population shares, each with over 25% of their residents aged 65 and above.
 -   Central and mature estates (e.g., Rochor, Toa Payoh, Queenstown) consistently appear in the top rankings for elderly proportion, highlighting the ageing nature of Singapore’s older housing estates.
 -   In contrast, larger but newer areas like Tampines and Punggol have lower elderly shares (below 20%), indicating a younger overall population.

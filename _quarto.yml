@@ -33,6 +33,9 @@ website:
             href: "Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8B.html"            
           - text: "Hands-on Exercise 8C"
             href: "Hands-on_Exercise/Hands-on_Ex08/Hands-on_Ex8C.html"                      
+          - text: "Hands-on Exercise 9A"
+            href: "Hands-on_Exercise/Hands-on_Ex09/Hands-on_Ex9A.html"                      
+  
             
             
       - text: "Take-home Exercise"
